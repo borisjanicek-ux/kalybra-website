@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KALYBRA — Viser juste.</title>
   <meta name="description" content="Management de transition nouvelle génération. Le bon leader en 24h, au prix d'un CDI. IA au cœur, marge affichée."/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230D1B40'/><line x1='17' y1='14' x2='46' y2='53' stroke='%23C8A050' stroke-width='7' stroke-linecap='round'/><line x1='25' y1='11' x2='50' y2='50' stroke='%23C8A050' stroke-width='4' stroke-linecap='round'/><line x1='83' y1='14' x2='54' y2='53' stroke='%23C8A050' stroke-width='7' stroke-linecap='round'/><line x1='75' y1='11' x2='50' y2='50' stroke='%23C8A050' stroke-width='4' stroke-linecap='round'/><line x1='50' y1='52' x2='50' y2='84' stroke='%23C8A050' stroke-width='11' stroke-linecap='round'/></svg>"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230D1B40'/><line x1='22' y1='15' x2='44' y2='53' stroke='%23C8A050' stroke-width='6.5' stroke-linecap='round'/><line x1='32' y1='13' x2='48' y2='52' stroke='%23C8A050' stroke-width='3.5' stroke-linecap='round'/><line x1='78' y1='15' x2='56' y2='53' stroke='%23C8A050' stroke-width='6.5' stroke-linecap='round'/><line x1='68' y1='13' x2='52' y2='52' stroke='%23C8A050' stroke-width='3.5' stroke-linecap='round'/><line x1='50' y1='52' x2='50' y2='83' stroke='%23C8A050' stroke-width='10' stroke-linecap='round'/></svg>"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -615,6 +615,222 @@
   display: none;
 }
 #gate.hidden { display: none; }
+
+/* ════════════════════════════════════════
+   SLIDE PANELS — CLIENT & MANAGER
+════════════════════════════════════════ */
+#panel-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(7,16,40,.55); backdrop-filter: blur(5px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease;
+}
+#panel-overlay.active { opacity: 1; pointer-events: all; }
+
+.slide-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 901;
+  width: 500px; max-width: 100vw;
+  background: var(--white);
+  transform: translateX(105%);
+  transition: transform .42s cubic-bezier(.16,1,.3,1);
+  display: flex; flex-direction: column;
+  box-shadow: -12px 0 80px rgba(7,16,40,.22);
+}
+.slide-panel.open { transform: translateX(0); }
+
+/* Header */
+.panel-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0; background: var(--white);
+}
+.panel-header-logo { display: flex; align-items: center; gap: 9px; }
+.panel-header-logo svg { width: 26px; height: 26px; }
+.panel-header-brand {
+  font-weight: 800; font-size: 0.85rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--navy);
+}
+.panel-header-brand .gy { color: var(--gold); }
+.panel-header-divider {
+  width: 1px; height: 22px; background: var(--border); margin: 0 4px;
+}
+.panel-header-title {
+  flex: 1; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--slate);
+}
+.panel-close {
+  background: none; border: none; cursor: pointer;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--slate); transition: background .2s, color .2s;
+  flex-shrink: 0;
+}
+.panel-close:hover { background: var(--light); color: var(--navy); }
+.panel-close svg { pointer-events: none; }
+
+/* Progress bar */
+.panel-progress {
+  height: 3px; background: var(--border); flex-shrink: 0;
+}
+.panel-progress-bar {
+  height: 100%; background: var(--gold);
+  transition: width .4s ease; width: 0%;
+}
+
+/* Body */
+.panel-body { flex: 1; overflow-y: auto; padding: 38px 32px 32px; }
+
+/* Steps */
+.panel-step { display: none; animation: stepIn .32s ease; }
+.panel-step.active { display: block; }
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.step-index {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--gold-d); margin-bottom: 10px;
+}
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.45rem, 2.5vw, 1.75rem);
+  font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.18;
+}
+.step-sub {
+  font-size: 0.83rem; color: var(--slate); margin-bottom: 28px; line-height: 1.55;
+}
+
+/* Select */
+.panel-select {
+  width: 100%; padding: 13px 42px 13px 16px;
+  border: 1.5px solid var(--border); border-radius: 7px;
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text);
+  background: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 6 5-6' stroke='%2394a3b8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  -webkit-appearance: none; appearance: none;
+  cursor: pointer; margin-bottom: 28px;
+  transition: border-color .2s;
+}
+.panel-select:focus { outline: none; border-color: var(--gold); }
+
+/* Check items */
+.check-group { margin-bottom: 24px; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 14px; border-radius: 7px; cursor: pointer;
+  transition: background .15s; margin-bottom: 4px;
+  border: 1.5px solid transparent;
+}
+.check-item:hover { background: var(--light); }
+.check-item.ck-sel { background: #EEF1F9; border-color: var(--border); }
+.check-item input[type="checkbox"] {
+  width: 17px; height: 17px; margin-top: 2px; flex-shrink: 0;
+  accent-color: var(--navy); cursor: pointer;
+}
+.check-lbl { font-size: 0.875rem; color: var(--text); }
+.check-sub { font-size: 0.75rem; color: var(--slate); margin-top: 2px; display: block; }
+
+/* Pills */
+.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.pill {
+  padding: 8px 15px; border-radius: 22px;
+  border: 1.5px solid var(--border);
+  font-size: 0.82rem; font-weight: 500; color: var(--text2);
+  cursor: pointer; transition: all .15s; user-select: none;
+}
+.pill:hover { border-color: var(--gold-d); color: var(--navy); }
+.pill.selected { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.pill-max-hint {
+  font-size: 0.74rem; color: var(--slate); margin-bottom: 28px;
+}
+
+/* Radio items */
+.radio-group { margin-bottom: 24px; }
+.radio-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-radius: 7px; cursor: pointer;
+  transition: background .15s; margin-bottom: 4px;
+  border: 1.5px solid transparent;
+}
+.radio-item:hover { background: var(--light); }
+.radio-item.rd-sel { background: #EEF1F9; border-color: var(--border); }
+.radio-item input[type="radio"] {
+  width: 17px; height: 17px; flex-shrink: 0;
+  accent-color: var(--navy); cursor: pointer;
+}
+.radio-lbl { font-size: 0.875rem; color: var(--text); }
+
+/* Input fields */
+.panel-field { margin-bottom: 15px; }
+.panel-field label {
+  display: block; font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text2); margin-bottom: 6px;
+}
+.panel-input {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--border); border-radius: 7px;
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text);
+  background: var(--white); transition: border-color .2s;
+}
+.panel-input:focus { outline: none; border-color: var(--gold); }
+.panel-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Nav buttons */
+.panel-nav {
+  display: flex; align-items: center; gap: 10px;
+  padding-top: 28px; border-top: 1px solid var(--border); margin-top: 4px;
+}
+.btn-pnav {
+  flex: 1; padding: 14px 20px;
+  background: var(--navy); color: var(--white);
+  border: none; border-radius: 7px; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 0.83rem;
+  font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  transition: background .2s, transform .15s;
+}
+.btn-pnav:hover { background: var(--navy2); transform: translateY(-1px); }
+.btn-pnav--submit { background: var(--gold); color: var(--navy); }
+.btn-pnav--submit:hover { background: var(--gold-l); }
+.btn-pnav--back {
+  background: none; color: var(--slate);
+  border: 1.5px solid var(--border); flex: 0 0 auto; padding: 14px 18px;
+}
+.btn-pnav--back:hover { border-color: var(--slate); color: var(--text); transform: none; }
+
+/* Success */
+.panel-success { text-align: center; padding: 48px 16px; }
+.success-circle {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 10px 40px rgba(34,197,94,.28);
+}
+.panel-success h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem; font-weight: 600; color: var(--navy); margin-bottom: 12px;
+}
+.panel-success p { font-size: 0.88rem; color: var(--slate); line-height: 1.6; max-width: 320px; margin: 0 auto 28px; }
+.btn-success-close {
+  padding: 12px 28px; background: var(--light); color: var(--text2);
+  border: none; border-radius: 7px; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+  transition: background .15s;
+}
+.btn-success-close:hover { background: var(--border); }
+
+/* Section label on manager panel */
+.slide-panel--manager .panel-header { border-bottom-color: var(--border); }
+
+@media (max-width: 540px) {
+  .slide-panel { width: 100%; border-radius: 0; }
+  .panel-body { padding: 28px 20px 24px; }
+  .panel-header { padding: 18px 20px; }
+}
 </style>
 
 <div id="gate">
@@ -622,11 +838,11 @@
     <div id="gate-logo">
       <svg width="52" height="52" viewBox="0 0 100 100" fill="none">
         <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="17" y1="14" x2="46" y2="53" stroke="#C8A050" stroke-width="7"  stroke-linecap="round"/>
-        <line x1="25" y1="11" x2="50" y2="50" stroke="#C8A050" stroke-width="4"  stroke-linecap="round"/>
-        <line x1="83" y1="14" x2="54" y2="53" stroke="#C8A050" stroke-width="7"  stroke-linecap="round"/>
-        <line x1="75" y1="11" x2="50" y2="50" stroke="#C8A050" stroke-width="4"  stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="84" stroke="#C8A050" stroke-width="11" stroke-linecap="round"/>
+        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10"  stroke-linecap="round"/>
       </svg>
       <span id="gate-logo-text">KAL<span id="gate-logo-y">Y</span>BRA</span>
     </div>
@@ -665,11 +881,11 @@ function checkGate() {
     <a href="#" class="nav-logo">
       <svg class="nav-logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="17" y1="14" x2="46" y2="53" stroke="#C8A050" stroke-width="7"  stroke-linecap="round"/>
-        <line x1="25" y1="11" x2="50" y2="50" stroke="#C8A050" stroke-width="4"  stroke-linecap="round"/>
-        <line x1="83" y1="14" x2="54" y2="53" stroke="#C8A050" stroke-width="7"  stroke-linecap="round"/>
-        <line x1="75" y1="11" x2="50" y2="50" stroke="#C8A050" stroke-width="4"  stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="84" stroke="#C8A050" stroke-width="11" stroke-linecap="round"/>
+        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10"  stroke-linecap="round"/>
       </svg>
       <span class="nav-logo-text">KAL<span class="nav-logo-y">Y</span>BRA</span>
     </a>
@@ -680,8 +896,8 @@ function checkGate() {
       <a href="#rupture">Pourquoi KALYBRA</a>
     </nav>
     <div class="nav-ctas">
-      <a href="#cta-final" class="nav-cta-secondary">Rejoindre le réseau</a>
-      <a href="#cta-final" class="nav-cta-primary">Déposer un brief</a>
+      <a href="#" onclick="openPanel('manager');return false;" class="nav-cta-secondary">Rejoindre le réseau</a>
+      <a href="#" onclick="openPanel('client');return false;" class="nav-cta-primary">Déposer un brief</a>
     </div>
   </div>
 </nav>
@@ -689,7 +905,7 @@ function checkGate() {
 <!-- ═══════════════════════ HERO — SPLIT ═══════════════════════ -->
 <section id="hero">
 
-  <a href="#cta-final" class="hero-panel hero-panel--client">
+  <a href="#" onclick="openPanel('client');return false;" class="hero-panel hero-panel--client">
     <div class="hero-content fade-up">
       <span class="hero-actor">Pour les entreprises</span>
       <h1 class="hero-h1">Vous recrutez<br>un manager<br>de transition.</h1>
@@ -703,15 +919,15 @@ function checkGate() {
 
   <div class="hero-divider">
     <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
-      <line x1="17" y1="14" x2="46" y2="53" stroke="#0D1B40" stroke-width="7"  stroke-linecap="round"/>
-      <line x1="25" y1="11" x2="50" y2="50" stroke="#0D1B40" stroke-width="4"  stroke-linecap="round"/>
-      <line x1="83" y1="14" x2="54" y2="53" stroke="#0D1B40" stroke-width="7"  stroke-linecap="round"/>
-      <line x1="75" y1="11" x2="50" y2="50" stroke="#0D1B40" stroke-width="4"  stroke-linecap="round"/>
-      <line x1="50" y1="52" x2="50" y2="84" stroke="#0D1B40" stroke-width="11" stroke-linecap="round"/>
+      <line x1="22" y1="15" x2="44" y2="53" stroke="#0D1B40" stroke-width="6.5" stroke-linecap="round"/>
+      <line x1="32" y1="13" x2="48" y2="52" stroke="#0D1B40" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="78" y1="15" x2="56" y2="53" stroke="#0D1B40" stroke-width="6.5" stroke-linecap="round"/>
+      <line x1="68" y1="13" x2="52" y2="52" stroke="#0D1B40" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="50" y1="52" x2="50" y2="83" stroke="#0D1B40" stroke-width="10"  stroke-linecap="round"/>
     </svg>
   </div>
 
-  <a href="#cta-final" class="hero-panel hero-panel--manager">
+  <a href="#" onclick="openPanel('manager');return false;" class="hero-panel hero-panel--manager">
     <div class="hero-content fade-up" style="transition-delay:.12s">
       <span class="hero-actor">Pour les managers</span>
       <h1 class="hero-h1">Vous êtes<br>manager<br>de transition.</h1>
@@ -990,7 +1206,7 @@ function checkGate() {
       <p class="cta-final-sub fade-up" style="transition-delay:.08s">Choisissez votre parcours. Notre équipe vous répond sous 4 heures.</p>
     </div>
     <div class="cta-cards">
-      <a href="mailto:contact@kalybra.com?subject=Brief%20mission%20KALYBRA" class="cta-card cta-card--client fade-up" style="transition-delay:.12s">
+      <a href="#" onclick="openPanel('client');return false;" class="cta-card cta-card--client fade-up" style="transition-delay:.12s">
         <span class="cta-card-label">Entreprise</span>
         <p class="cta-card-title">Je recrute un manager de transition</p>
         <p class="cta-card-body">Déposez votre brief en 10 minutes. Premier profil présenté sous 24 heures.</p>
@@ -999,7 +1215,7 @@ function checkGate() {
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
       </a>
-      <a href="mailto:contact@kalybra.com?subject=Rejoindre%20le%20réseau%20KALYBRA" class="cta-card cta-card--manager fade-up" style="transition-delay:.2s">
+      <a href="#" onclick="openPanel('manager');return false;" class="cta-card cta-card--manager fade-up" style="transition-delay:.2s">
         <span class="cta-card-label">Manager</span>
         <p class="cta-card-title">Je rejoins le réseau KALYBRA</p>
         <p class="cta-card-body">Missions exigeantes, TJM compétitif, et l'exosquelette digital pour performer dès le Jour 1.</p>
@@ -1057,6 +1273,262 @@ function checkGate() {
     </div>
   </div>
 </footer>
+
+<!-- ═══════════════════════ PANEL OVERLAY ═══════════════════════ -->
+<div id="panel-overlay" onclick="closePanel()"></div>
+
+<!-- ═══════════════════════ PANEL CLIENT ═══════════════════════ -->
+<div id="panel-client" class="slide-panel" role="dialog" aria-label="Déposer un brief">
+
+  <div class="panel-header">
+    <div class="panel-header-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
+        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+      <span class="panel-header-brand">KAL<span class="gy">Y</span>BRA</span>
+    </div>
+    <div class="panel-header-divider"></div>
+    <span class="panel-header-title">Déposer un brief</span>
+    <button class="panel-close" onclick="closePanel()" aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="panel-progress"><div class="panel-progress-bar" id="c-pbar"></div></div>
+
+  <div class="panel-body">
+
+    <!-- ── Step C1 : Fonction ── -->
+    <div class="panel-step active" id="c-s1">
+      <p class="step-index">Étape 1 sur 3</p>
+      <h3 class="step-title">Quelle fonction recherchez-vous ?</h3>
+      <p class="step-sub">Sélectionnez la direction ou le périmètre fonctionnel du poste à pourvoir.</p>
+      <select class="panel-select" id="c-fonction">
+        <option value="">Sélectionner une fonction...</option>
+        <option value="F1">Direction Générale / CEO / COO / DG</option>
+        <option value="F2">Finance / DAF / CFO / Contrôle de Gestion</option>
+        <option value="F3">Opérations / Supply Chain / Production / Logistique</option>
+        <option value="F4">Commercial / Direction des Ventes / Business Development</option>
+        <option value="F5">Ressources Humaines / DRH / Talent Management</option>
+        <option value="F6">Digital / IT / DSI / Transformation Numérique</option>
+        <option value="F7">Stratégie / Développement / M&A / Corporate</option>
+        <option value="F8">Juridique / Compliance / Secrétariat Général</option>
+      </select>
+      <div class="panel-nav">
+        <button class="btn-pnav" onclick="cNext(1)">Continuer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step C2 : Contexte + Taille ── -->
+    <div class="panel-step" id="c-s2">
+      <p class="step-index">Étape 2 sur 3</p>
+      <h3 class="step-title">Quel est le contexte de la mission ?</h3>
+      <p class="step-sub">Sélectionnez une ou plusieurs situations. Cela nous permet de cibler les managers les plus pertinents.</p>
+      <div class="check-group" id="c-situations">
+        <label class="check-item"><input type="checkbox" value="S1"><span class="check-lbl">Développement / Croissance externe<span class="check-sub">Expansion, nouvelles activités, internationalisation</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S2"><span class="check-lbl">Transformation / Réorganisation<span class="check-sub">Restructuration organisationnelle, changement de modèle</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S3"><span class="check-lbl">Restructuration / Redressement<span class="check-sub">Retournement, plan de performance, urgence financière</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S4"><span class="check-lbl">Performance opérationnelle<span class="check-sub">Optimisation, amélioration continue, lean management</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S5"><span class="check-lbl">M&A / Post-acquisition<span class="check-sub">Intégration, due diligence, carve-out, fusion</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S6"><span class="check-lbl">Management de crise<span class="check-sub">Continuité d'activité, gestion d'incident, départ brusque</span></span></label>
+        <label class="check-item"><input type="checkbox" value="S7"><span class="check-lbl">Build / Lancement<span class="check-sub">Création d'entité, lancement produit, ouverture marché</span></span></label>
+      </div>
+      <div class="panel-nav">
+        <button class="btn-pnav btn-pnav--back" onclick="cBack(2)">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:5px;vertical-align:-1px"><path d="M11 6.5H2M6 2.5L2 6.5l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour
+        </button>
+        <button class="btn-pnav" onclick="cNext(2)">Continuer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step C3 : Coordonnées ── -->
+    <div class="panel-step" id="c-s3">
+      <p class="step-index">Étape 3 sur 3</p>
+      <h3 class="step-title">Vos coordonnées</h3>
+      <p class="step-sub">Notre équipe vous contacte sous 4 heures pour affiner le brief et lancer le matching.</p>
+      <div class="panel-field-row">
+        <div class="panel-field"><label>Prénom</label><input class="panel-input" id="c-prenom" type="text" placeholder="Marie"/></div>
+        <div class="panel-field"><label>Nom</label><input class="panel-input" id="c-nom" type="text" placeholder="Dupont"/></div>
+      </div>
+      <div class="panel-field"><label>Email professionnel</label><input class="panel-input" id="c-email" type="email" placeholder="marie.dupont@entreprise.com"/></div>
+      <div class="panel-field"><label>Téléphone</label><input class="panel-input" id="c-tel" type="tel" placeholder="+33 6 00 00 00 00"/></div>
+      <div class="panel-field"><label>Entreprise</label><input class="panel-input" id="c-entreprise" type="text" placeholder="Nom de votre société"/></div>
+      <div class="panel-nav">
+        <button class="btn-pnav btn-pnav--back" onclick="cBack(3)">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:5px;vertical-align:-1px"><path d="M11 6.5H2M6 2.5L2 6.5l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour
+        </button>
+        <button class="btn-pnav btn-pnav--submit" onclick="cSubmit()">Envoyer le brief
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Success ── -->
+    <div class="panel-step" id="c-success">
+      <div class="panel-success">
+        <div class="success-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 16l7 7 13-13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Brief reçu !</h3>
+        <p>Notre équipe analyse votre besoin et vous contacte sous <strong>4 heures ouvrées</strong>. Premier profil présenté en 24 h.</p>
+        <button class="btn-success-close" onclick="closePanel()">Fermer</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════ PANEL MANAGER ═══════════════════════ -->
+<div id="panel-manager" class="slide-panel slide-panel--manager" role="dialog" aria-label="Intégrer le réseau KALYBRA">
+
+  <div class="panel-header">
+    <div class="panel-header-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
+        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+      <span class="panel-header-brand">KAL<span class="gy">Y</span>BRA</span>
+    </div>
+    <div class="panel-header-divider"></div>
+    <span class="panel-header-title">Intégrer le réseau</span>
+    <button class="panel-close" onclick="closePanel()" aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="panel-progress"><div class="panel-progress-bar" id="m-pbar"></div></div>
+
+  <div class="panel-body">
+
+    <!-- ── Step M1 : Fonction principale ── -->
+    <div class="panel-step active" id="m-s1">
+      <p class="step-index">Étape 1 sur 4</p>
+      <h3 class="step-title">Quelle est votre fonction principale ?</h3>
+      <p class="step-sub">Sélectionnez le périmètre dans lequel vous avez le plus d'expérience en management de transition.</p>
+      <select class="panel-select" id="m-fonction">
+        <option value="">Sélectionner une fonction...</option>
+        <option value="F1">Direction Générale / CEO / COO / DG</option>
+        <option value="F2">Finance / DAF / CFO / Contrôle de Gestion</option>
+        <option value="F3">Opérations / Supply Chain / Production / Logistique</option>
+        <option value="F4">Commercial / Direction des Ventes / Business Development</option>
+        <option value="F5">Ressources Humaines / DRH / Talent Management</option>
+        <option value="F6">Digital / IT / DSI / Transformation Numérique</option>
+        <option value="F7">Stratégie / Développement / M&A / Corporate</option>
+        <option value="F8">Juridique / Compliance / Secrétariat Général</option>
+      </select>
+      <div class="panel-nav">
+        <button class="btn-pnav" onclick="mNext(1)">Continuer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step M2 : Secteurs ── -->
+    <div class="panel-step" id="m-s2">
+      <p class="step-index">Étape 2 sur 4</p>
+      <h3 class="step-title">Vos secteurs d'expertise</h3>
+      <p class="step-sub">Sélectionnez jusqu'à 3 secteurs dans lesquels vous avez une expérience significative.</p>
+      <div class="pill-grid" id="m-secteurs">
+        <span class="pill" data-val="I1">Industrie lourde</span>
+        <span class="pill" data-val="I2">Énergie / CleanTech</span>
+        <span class="pill" data-val="I3">Manufacturier</span>
+        <span class="pill" data-val="I4">Mobilité / Auto / Aéro</span>
+        <span class="pill" data-val="I5">Agroalimentaire</span>
+        <span class="pill" data-val="I6">FMCG / Luxe</span>
+        <span class="pill" data-val="I7">Construction / Infra</span>
+        <span class="pill" data-val="I8">Distribution / Retail</span>
+        <span class="pill" data-val="I9">Santé / MedTech / Pharma</span>
+        <span class="pill" data-val="I10">Services Financiers</span>
+        <span class="pill" data-val="I11">Tech / SaaS / Scale-up</span>
+        <span class="pill" data-val="I12">Conseil / Services B2B</span>
+        <span class="pill" data-val="I13">Secteur public</span>
+      </div>
+      <p class="pill-max-hint" id="m-pill-hint">Sélectionnez jusqu'à 3 secteurs</p>
+      <div class="panel-nav">
+        <button class="btn-pnav btn-pnav--back" onclick="mBack(2)">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:5px;vertical-align:-1px"><path d="M11 6.5H2M6 2.5L2 6.5l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour
+        </button>
+        <button class="btn-pnav" onclick="mNext(2)">Continuer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step M3 : Disponibilité ── -->
+    <div class="panel-step" id="m-s3">
+      <p class="step-index">Étape 3 sur 4</p>
+      <h3 class="step-title">Votre disponibilité</h3>
+      <p class="step-sub">Ces informations nous permettent de vous proposer des missions compatibles avec votre agenda.</p>
+      <div class="radio-group">
+        <p style="font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:10px;">Quand êtes-vous disponible ?</p>
+        <label class="radio-item"><input type="radio" name="m-dispo" value="imm"> <span class="radio-lbl">Disponible immédiatement</span></label>
+        <label class="radio-item"><input type="radio" name="m-dispo" value="2w">  <span class="radio-lbl">Disponible sous 2 semaines</span></label>
+        <label class="radio-item"><input type="radio" name="m-dispo" value="1m">  <span class="radio-lbl">Disponible sous 1 mois</span></label>
+        <label class="radio-item"><input type="radio" name="m-dispo" value="end"> <span class="radio-lbl">En mission, disponible à terme</span></label>
+      </div>
+      <div class="radio-group" style="margin-top:6px;">
+        <p style="font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:10px;">Format préféré</p>
+        <label class="radio-item"><input type="radio" name="m-format" value="ft">  <span class="radio-lbl">Temps plein (5 j/semaine)</span></label>
+        <label class="radio-item"><input type="radio" name="m-format" value="pt">  <span class="radio-lbl">Temps partiel (2 à 3 j/semaine)</span></label>
+        <label class="radio-item"><input type="radio" name="m-format" value="any"> <span class="radio-lbl">Les deux selon la mission</span></label>
+      </div>
+      <div class="panel-nav">
+        <button class="btn-pnav btn-pnav--back" onclick="mBack(3)">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:5px;vertical-align:-1px"><path d="M11 6.5H2M6 2.5L2 6.5l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour
+        </button>
+        <button class="btn-pnav" onclick="mNext(3)">Continuer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step M4 : Coordonnées ── -->
+    <div class="panel-step" id="m-s4">
+      <p class="step-index">Étape 4 sur 4</p>
+      <h3 class="step-title">Vos coordonnées</h3>
+      <p class="step-sub">Notre équipe vous contacte rapidement pour valider votre profil et vous présenter les premières opportunités.</p>
+      <div class="panel-field-row">
+        <div class="panel-field"><label>Prénom</label><input class="panel-input" id="m-prenom" type="text" placeholder="Jean"/></div>
+        <div class="panel-field"><label>Nom</label><input class="panel-input" id="m-nom" type="text" placeholder="Martin"/></div>
+      </div>
+      <div class="panel-field"><label>Email professionnel</label><input class="panel-input" id="m-email" type="email" placeholder="jean.martin@mail.com"/></div>
+      <div class="panel-field"><label>Téléphone</label><input class="panel-input" id="m-tel" type="tel" placeholder="+33 6 00 00 00 00"/></div>
+      <div class="panel-field"><label>Profil LinkedIn <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--slate-l)">(optionnel)</span></label><input class="panel-input" id="m-linkedin" type="url" placeholder="https://linkedin.com/in/..."/></div>
+      <div class="panel-nav">
+        <button class="btn-pnav btn-pnav--back" onclick="mBack(4)">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-right:5px;vertical-align:-1px"><path d="M11 6.5H2M6 2.5L2 6.5l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour
+        </button>
+        <button class="btn-pnav btn-pnav--submit" onclick="mSubmit()">Envoyer ma candidature
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:6px;vertical-align:-2px"><path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Success ── -->
+    <div class="panel-step" id="m-success">
+      <div class="panel-success">
+        <div class="success-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 16l7 7 13-13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Candidature reçue !</h3>
+        <p>Votre profil est entre les mains de notre équipe. Nous revenons vers vous sous <strong>48 heures</strong> pour les premières missions disponibles.</p>
+        <button class="btn-success-close" onclick="closePanel()">Fermer</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <script>
 /* ── NAV scroll ── */
@@ -1160,6 +1632,168 @@ input.addEventListener('input', () => {
 
 render(120000);
 fillSlider(120000);
+
+/* ══════════════════════════════════════
+   SLIDE PANELS
+══════════════════════════════════════ */
+let activePanel = null;
+
+function openPanel(type) {
+  closePanel(true);
+  activePanel = type;
+  document.getElementById('panel-overlay').classList.add('active');
+  document.getElementById('panel-' + type).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (type === 'client') { cGoStep(1); }
+  else { mGoStep(1); }
+}
+
+function closePanel(silent) {
+  if (!activePanel) return;
+  document.getElementById('panel-overlay').classList.remove('active');
+  document.getElementById('panel-' + activePanel).classList.remove('open');
+  document.body.style.overflow = '';
+  activePanel = null;
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePanel();
+});
+
+/* ── CLIENT flow ── */
+function cGoStep(n) {
+  document.querySelectorAll('#panel-client .panel-step').forEach(s => s.classList.remove('active'));
+  const steps = ['c-s1','c-s2','c-s3','c-success'];
+  if (steps[n-1]) document.getElementById(steps[n-1]).classList.add('active');
+  const total = 3; // visible steps
+  const pct = n > total ? 100 : Math.round((n - 1) / total * 100);
+  document.getElementById('c-pbar').style.width = pct + '%';
+}
+
+function cNext(step) {
+  if (step === 1) {
+    const val = document.getElementById('c-fonction').value;
+    if (!val) { alert('Veuillez sélectionner une fonction.'); return; }
+  }
+  if (step === 2) {
+    const checked = document.querySelectorAll('#c-situations input:checked');
+    if (!checked.length) { alert('Veuillez sélectionner au moins un contexte de mission.'); return; }
+  }
+  cGoStep(step + 1);
+}
+
+function cBack(step) { cGoStep(step - 1); }
+
+function cSubmit() {
+  const email = document.getElementById('c-email').value.trim();
+  const prenom = document.getElementById('c-prenom').value.trim();
+  if (!prenom || !email) { alert('Veuillez renseigner votre prénom et email.'); return; }
+  // Build mailto with collected data
+  const fonction = document.getElementById('c-fonction').value;
+  const situations = Array.from(document.querySelectorAll('#c-situations input:checked')).map(i => i.value).join(', ');
+  const nom = document.getElementById('c-nom').value.trim();
+  const tel = document.getElementById('c-tel').value.trim();
+  const soc = document.getElementById('c-entreprise').value.trim();
+  const subj = encodeURIComponent('Brief KALYBRA — ' + prenom + ' ' + nom);
+  const body = encodeURIComponent(
+    'Prénom : ' + prenom + '\nNom : ' + nom +
+    '\nEmail : ' + email + '\nTéléphone : ' + tel +
+    '\nEntreprise : ' + soc +
+    '\nFonction recherchée : ' + fonction +
+    '\nContexte(s) de mission : ' + situations
+  );
+  window.location.href = 'mailto:contact@kalybra.com?subject=' + subj + '&body=' + body;
+  cGoStep(4);
+}
+
+/* ── MANAGER flow ── */
+function mGoStep(n) {
+  document.querySelectorAll('#panel-manager .panel-step').forEach(s => s.classList.remove('active'));
+  const steps = ['m-s1','m-s2','m-s3','m-s4','m-success'];
+  if (steps[n-1]) document.getElementById(steps[n-1]).classList.add('active');
+  const total = 4;
+  const pct = n > total ? 100 : Math.round((n - 1) / total * 100);
+  document.getElementById('m-pbar').style.width = pct + '%';
+}
+
+function mNext(step) {
+  if (step === 1) {
+    const val = document.getElementById('m-fonction').value;
+    if (!val) { alert('Veuillez sélectionner votre fonction principale.'); return; }
+  }
+  if (step === 2) {
+    const selected = document.querySelectorAll('#m-secteurs .pill.selected');
+    if (!selected.length) { alert('Veuillez sélectionner au moins un secteur.'); return; }
+  }
+  if (step === 3) {
+    const dispo = document.querySelector('input[name="m-dispo"]:checked');
+    if (!dispo) { alert('Veuillez indiquer votre disponibilité.'); return; }
+  }
+  mGoStep(step + 1);
+}
+
+function mBack(step) { mGoStep(step - 1); }
+
+function mSubmit() {
+  const email = document.getElementById('m-email').value.trim();
+  const prenom = document.getElementById('m-prenom').value.trim();
+  if (!prenom || !email) { alert('Veuillez renseigner votre prénom et email.'); return; }
+  const fonction = document.getElementById('m-fonction').value;
+  const secteurs = Array.from(document.querySelectorAll('#m-secteurs .pill.selected')).map(p => p.dataset.val).join(', ');
+  const dispo = (document.querySelector('input[name="m-dispo"]:checked') || {value:''}).value;
+  const format = (document.querySelector('input[name="m-format"]:checked') || {value:''}).value;
+  const nom = document.getElementById('m-nom').value.trim();
+  const tel = document.getElementById('m-tel').value.trim();
+  const linkedin = document.getElementById('m-linkedin').value.trim();
+  const subj = encodeURIComponent('Candidature réseau KALYBRA — ' + prenom + ' ' + nom);
+  const body = encodeURIComponent(
+    'Prénom : ' + prenom + '\nNom : ' + nom +
+    '\nEmail : ' + email + '\nTéléphone : ' + tel +
+    '\nLinkedIn : ' + linkedin +
+    '\nFonction principale : ' + fonction +
+    '\nSecteurs : ' + secteurs +
+    '\nDisponibilité : ' + dispo + '\nFormat : ' + format
+  );
+  window.location.href = 'mailto:contact@kalybra.com?subject=' + subj + '&body=' + body;
+  mGoStep(5);
+}
+
+/* ── Pills (sectors) ── */
+document.querySelectorAll('#m-secteurs .pill').forEach(function(pill) {
+  pill.addEventListener('click', function() {
+    const selected = document.querySelectorAll('#m-secteurs .pill.selected');
+    if (this.classList.contains('selected')) {
+      this.classList.remove('selected');
+    } else {
+      if (selected.length >= 3) {
+        document.getElementById('m-pill-hint').textContent = 'Maximum 3 secteurs sélectionnés.';
+        document.getElementById('m-pill-hint').style.color = '#ef4444';
+        return;
+      }
+      this.classList.add('selected');
+    }
+    const n = document.querySelectorAll('#m-secteurs .pill.selected').length;
+    const hint = document.getElementById('m-pill-hint');
+    if (n === 0) { hint.textContent = 'Sélectionnez jusqu\'à 3 secteurs'; hint.style.color = ''; }
+    else if (n < 3) { hint.textContent = n + ' sélectionné' + (n > 1 ? 's' : '') + ' — vous pouvez en ajouter ' + (3 - n) + ' de plus.'; hint.style.color = 'var(--gold-d)'; }
+    else { hint.textContent = '3/3 secteurs sélectionnés.'; hint.style.color = 'var(--gold-d)'; }
+  });
+});
+
+/* ── Check-item style sync ── */
+document.querySelectorAll('.check-item input[type="checkbox"]').forEach(function(cb) {
+  cb.addEventListener('change', function() {
+    this.closest('.check-item').classList.toggle('ck-sel', this.checked);
+  });
+});
+document.querySelectorAll('.radio-item input[type="radio"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    const name = this.name;
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function(x) {
+      x.closest('.radio-item').classList.toggle('rd-sel', x.checked);
+    });
+  });
+});
 </script>
 </body>
 </html>
