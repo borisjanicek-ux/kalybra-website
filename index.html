@@ -562,59 +562,6 @@
 </head>
 
 <style>
-#gate {
-  position: fixed; inset: 0; z-index: 9999;
-  background: #071028;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  font-family: 'Inter', sans-serif;
-}
-#gate-box {
-  text-align: center;
-  padding: 52px 48px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 12px;
-  width: 100%; max-width: 380px;
-}
-#gate-logo {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  margin-bottom: 32px;
-}
-#gate-logo-text {
-  font-weight: 800; font-size: 1.1rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: #ffffff;
-}
-#gate-logo-y { color: #C8A050; }
-#gate-label {
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255,255,255,.35); margin-bottom: 20px; display: block;
-}
-#gate-input {
-  width: 100%; padding: 14px 18px;
-  background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12);
-  border-radius: 7px; outline: none;
-  font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 500;
-  color: #ffffff; letter-spacing: 0.06em;
-  text-align: center; margin-bottom: 14px;
-  transition: border-color .2s;
-}
-#gate-input::placeholder { color: rgba(255,255,255,.25); letter-spacing: 0.04em; }
-#gate-input:focus { border-color: #C8A050; }
-#gate-btn {
-  width: 100%; padding: 14px;
-  background: #C8A050; color: #0D1B40;
-  border: none; border-radius: 7px; cursor: pointer;
-  font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  transition: background .2s, transform .15s;
-}
-#gate-btn:hover { background: #D8B870; transform: translateY(-1px); }
-#gate-error {
-  margin-top: 12px; font-size: 0.8rem; color: #ef4444;
-  display: none;
-}
-#gate.hidden { display: none; }
 
 /* ════════════════════════════════════════
    SLIDE PANELS — CLIENT & MANAGER
@@ -832,48 +779,6 @@
   .panel-header { padding: 18px 20px; }
 }
 </style>
-
-<div id="gate">
-  <div id="gate-box">
-    <div id="gate-logo">
-      <svg width="52" height="52" viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10"  stroke-linecap="round"/>
-      </svg>
-      <span id="gate-logo-text">KAL<span id="gate-logo-y">Y</span>BRA</span>
-    </div>
-    <span id="gate-label">Accès privé — version bêta</span>
-    <input id="gate-input" type="password" placeholder="Mot de passe" autocomplete="off"/>
-    <button id="gate-btn" onclick="checkGate()">Accéder</button>
-    <p id="gate-error">Mot de passe incorrect.</p>
-  </div>
-</div>
-
-<script>
-(function() {
-  if (sessionStorage.getItem('ky_access') === '1') {
-    document.getElementById('gate').classList.add('hidden');
-  }
-  document.getElementById('gate-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') checkGate();
-  });
-})();
-function checkGate() {
-  const v = document.getElementById('gate-input').value;
-  if (v === 'Sonateli') {
-    sessionStorage.setItem('ky_access', '1');
-    document.getElementById('gate').classList.add('hidden');
-  } else {
-    document.getElementById('gate-error').style.display = 'block';
-    document.getElementById('gate-input').value = '';
-    document.getElementById('gate-input').focus();
-  }
-}
-</script>
 
 <!-- ═══════════════════════ NAV ═══════════════════════ -->
 <nav id="nav">
