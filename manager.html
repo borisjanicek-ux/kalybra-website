@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KALYBRA · Rejoindre le réseau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--navy:#0D1B40;--gold:#C8A050;--gold-d:#A8842E;--slate:#64748b;--border:#E4E8F0;--light:#F5F6FA;--white:#fff}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:var(--navy);min-height:100vh;-webkit-font-smoothing:antialiased}
+  /* NAV */
+  nav{background:var(--white);border-bottom:1px solid var(--border);padding:16px 5%;display:flex;align-items:center;justify-content:space-between}
+  .nav-back{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);text-decoration:none;display:flex;align-items:center;gap:7px}
+  .nav-back:hover{color:var(--navy)}
+  /* LAYOUT */
+  .page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 61px)}
+  @media(max-width:860px){.page{grid-template-columns:1fr}}
+  /* LEFT — context */
+  .ctx{background:var(--navy);padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between}
+  .ctx-top{}
+  .ctx-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px}
+  .ctx-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--white);line-height:1.1;margin-bottom:24px}
+  .ctx-sub{font-size:0.9rem;color:rgba(255,255,255,.58);line-height:1.75;max-width:380px;margin-bottom:44px}
+  .ctx-promises{display:flex;flex-direction:column;gap:16px}
+  .ctx-promise{display:flex;align-items:flex-start;gap:14px}
+  .cp-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+  .cp-text{font-size:0.82rem;color:rgba(255,255,255,.7);line-height:1.6}
+  .cp-text strong{color:var(--white)}
+  .ctx-bottom{margin-top:48px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+  .ctx-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(255,255,255,.4)}
+  @media(max-width:860px){.ctx{display:none}}
+  /* RIGHT — form */
+  .form-wrap{padding:56px 52px;overflow-y:auto}
+  @media(max-width:640px){.form-wrap{padding:40px 24px}}
+  .form-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--navy);margin-bottom:6px}
+  .form-sub{font-size:0.85rem;color:var(--slate);margin-bottom:36px;line-height:1.6}
+  /* STEPS */
+  .steps{display:flex;gap:8px;margin-bottom:40px;align-items:center}
+  .step{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);cursor:pointer}
+  .step.active{color:var(--navy)}
+  .step.done{color:var(--gold-d)}
+  .step-dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+  .step.active .step-dot{background:var(--gold)}
+  .step.done .step-dot{background:var(--navy)}
+  .step-sep{flex:1;height:1px;background:var(--border);max-width:32px}
+  /* FORM FIELDS */
+  .field-section{margin-bottom:36px}
+  .field-section-title{font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-d);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:0.78rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+  .field label span{font-weight:400;color:var(--slate);font-size:0.72rem}
+  .field input,.field textarea,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:7px;font-family:'Inter',sans-serif;font-size:0.875rem;color:var(--navy);background:var(--white);transition:border-color .2s;outline:none}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--navy)}
+  .field textarea{resize:vertical;min-height:90px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.field-row{grid-template-columns:1fr}}
+  /* PILLS */
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);font-size:0.78rem;font-weight:500;cursor:pointer;transition:all .18s;background:var(--white);color:var(--navy)}
+  .pill:hover{border-color:var(--navy)}
+  .pill.selected{background:var(--navy);color:var(--white);border-color:var(--navy)}
+  .pill-note{font-size:0.7rem;color:var(--slate);margin-top:8px;font-style:italic}
+  /* TJM SLIDER */
+  .tjm-display{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);margin-bottom:4px}
+  .tjm-sub{font-size:0.72rem;color:var(--slate)}
+  input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer;margin-top:10px}
+  /* FILE UPLOAD */
+  .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .2s;background:var(--white)}
+  .upload-zone:hover{border-color:var(--navy)}
+  .upload-zone input{display:none}
+  .upload-icon{font-size:1.8rem;margin-bottom:8px}
+  .upload-label{font-size:0.82rem;font-weight:600;color:var(--navy);display:block;margin-bottom:4px}
+  .upload-hint{font-size:0.72rem;color:var(--slate)}
+  .upload-filename{font-size:0.8rem;color:var(--gold-d);font-weight:600;margin-top:8px;display:none}
+  /* DISPONIBILITE */
+  .avail-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .avail-pill{padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:0.78rem;font-weight:500;cursor:pointer;transition:all .18s;background:var(--white);color:var(--navy)}
+  .avail-pill:hover{border-color:var(--navy)}
+  .avail-pill.selected{background:var(--gold);color:var(--white);border-color:var(--gold)}
+  /* SUBMIT */
+  .form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+  .btn-nav{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--slate);padding:13px 22px;border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;border:1.5px solid var(--border);cursor:pointer;transition:all .2s}
+  .btn-nav:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-next{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:var(--white);padding:14px 28px;border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,transform .15s}
+  .btn-next:hover{background:#162550;transform:translateY(-1px)}
+  .btn-submit{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--white);padding:14px 28px;border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,transform .15s}
+  .btn-submit:hover{background:var(--gold-d);transform:translateY(-1px)}
+  .form-privacy{font-size:0.7rem;color:var(--slate);line-height:1.5;max-width:260px}
+  /* PROGRESS */
+  .pbar-wrap{height:3px;background:var(--border);border-radius:3px;margin-bottom:36px}
+  .pbar{height:3px;background:var(--gold);border-radius:3px;transition:width .4s}
+  /* SUCCESS */
+  .success-screen{display:none;text-align:center;padding:80px 24px}
+  .success-icon{font-size:3.5rem;margin-bottom:24px}
+  .success-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--navy);margin-bottom:12px}
+  .success-body{font-size:0.9rem;color:var(--slate);line-height:1.75;max-width:400px;margin:0 auto 36px}
+  .success-back{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:1.5px solid var(--border);padding:12px 22px;border-radius:7px;transition:border-color .2s}
+  .success-back:hover{border-color:var(--navy)}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retour
+  </a>
+</nav>
+
+<div class="page">
+  <!-- LEFT -->
+  <aside class="ctx">
+    <div class="ctx-top">
+      <span class="ctx-eyebrow">Manager de transition</span>
+      <h1 class="ctx-title">Vos missions<br>premium. Votre TJM.<br>Votre rythme.</h1>
+      <p class="ctx-sub">Rejoignez un réseau sélectif de managers expérimentés. Kalybra vous connecte aux décideurs qui ont besoin de vous maintenant.</p>
+      <div class="ctx-promises">
+        <div class="ctx-promise"><span class="cp-icon">💰</span><p class="cp-text"><strong>80 % du TJM</strong> reversés directement. Marge affichée, sans négociation.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">🤖</span><p class="cp-text"><strong>Exosquelette IA KALYBRA</strong> mis à votre disposition dès J+1 de mission.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">🚀</span><p class="cp-text"><strong>Premiers briefings</strong> transmis en moins de 48 heures après validation de votre profil.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">🔐</span><p class="cp-text"><strong>Profil confidentiel</strong> présenté uniquement avec votre accord explicite.</p></div>
+      </div>
+    </div>
+    <div class="ctx-bottom">
+      <p class="ctx-tagline">"Lock in. Sharp execution. That's the KALYBRA standard."</p>
+    </div>
+  </aside>
+
+  <!-- RIGHT — FORM -->
+  <div class="form-wrap" id="form-container">
+    <h2 class="form-title">Rejoindre le réseau</h2>
+    <p class="form-sub">4 étapes · environ 7 minutes</p>
+
+    <div class="steps">
+      <div class="step active" id="s1-tab"><div class="step-dot"></div>Expertise</div>
+      <div class="step-sep"></div>
+      <div class="step" id="s2-tab"><div class="step-dot"></div>Secteurs</div>
+      <div class="step-sep"></div>
+      <div class="step" id="s3-tab"><div class="step-dot"></div>Disponibilité</div>
+      <div class="step-sep"></div>
+      <div class="step" id="s4-tab"><div class="step-dot"></div>Profil</div>
+    </div>
+    <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:25%"></div></div>
+
+    <form id="mgr-form" onsubmit="return false">
+
+      <!-- STEP 1 — EXPERTISE FONCTIONNELLE -->
+      <div id="step1">
+        <div class="field-section">
+          <div class="field-section-title">Fonctions principales</div>
+          <div class="field">
+            <label>Votre fonction principale *</label>
+            <select id="f-function" required>
+              <option value="">Choisir...</option>
+              <option>Direction Générale / CEO</option>
+              <option>Direction Financière / CFO</option>
+              <option>Direction des Opérations / COO</option>
+              <option>Direction Commerciale / Sales</option>
+              <option>Direction Marketing</option>
+              <option>Direction des Ressources Humaines / DRH</option>
+              <option>Direction des Systèmes d'Information / DSI</option>
+              <option>Direction Industrielle / Production</option>
+              <option>Direction Supply Chain / Logistique</option>
+              <option>Direction des Achats</option>
+              <option>Direction Juridique</option>
+              <option>Direction de la Transformation</option>
+              <option>Direction de Projet / PMO</option>
+              <option>Direction R&amp;D / Innovation</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Situations de mission maîtrisées <span>(max 4)</span></label>
+            <div class="pills" id="pills-situations">
+              <span class="pill" data-group="situations">Restructuration / Turnaround</span>
+              <span class="pill" data-group="situations">Transformation digitale</span>
+              <span class="pill" data-group="situations">Croissance rapide / Scaling</span>
+              <span class="pill" data-group="situations">Fusion-acquisition / PMI</span>
+              <span class="pill" data-group="situations">Relance / Redressement</span>
+              <span class="pill" data-group="situations">Crise opérationnelle</span>
+              <span class="pill" data-group="situations">Vacance de poste</span>
+              <span class="pill" data-group="situations">Lancement de BU / filiale</span>
+              <span class="pill" data-group="situations">Optimisation des coûts</span>
+              <span class="pill" data-group="situations">Internationalisation</span>
+              <span class="pill" data-group="situations">Recrutement &amp; structuration équipe</span>
+              <span class="pill" data-group="situations">Accompagnement d'une IPO</span>
+            </div>
+            <p class="pill-note">Sélectionnez les situations dans lesquelles vous êtes le plus à l'aise.</p>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">Compétences clés</div>
+          <div class="field">
+            <label>Compétences différenciantes <span>(max 5)</span></label>
+            <div class="pills" id="pills-skills">
+              <span class="pill" data-group="skills">P&amp;L Management</span>
+              <span class="pill" data-group="skills">Lean / Excellence opérationnelle</span>
+              <span class="pill" data-group="skills">ERP / SAP</span>
+              <span class="pill" data-group="skills">Management cross-culturel</span>
+              <span class="pill" data-group="skills">Levée de fonds</span>
+              <span class="pill" data-group="skills">M&amp;A / Due diligence</span>
+              <span class="pill" data-group="skills">Data &amp; Analytics</span>
+              <span class="pill" data-group="skills">Change management</span>
+              <span class="pill" data-group="skills">Supply chain optimization</span>
+              <span class="pill" data-group="skills">HRBP / Talent management</span>
+              <span class="pill" data-group="skills">Gestion de crise</span>
+              <span class="pill" data-group="skills">Développement commercial BtoB</span>
+              <span class="pill" data-group="skills">Normes IFRS / consolidation</span>
+              <span class="pill" data-group="skills">Cybersécurité</span>
+              <span class="pill" data-group="skills">IA / Automatisation</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Années d'expérience en management de transition</label>
+            <select id="f-exp-transition">
+              <option value="">Choisir...</option>
+              <option>Première mission (en reconversion)</option>
+              <option>1 à 3 ans</option>
+              <option>3 à 7 ans</option>
+              <option>7 à 12 ans</option>
+              <option>Plus de 12 ans</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Années d'expérience totale en management</label>
+            <select id="f-exp-total">
+              <option value="">Choisir...</option>
+              <option>5 à 10 ans</option>
+              <option>10 à 15 ans</option>
+              <option>15 à 20 ans</option>
+              <option>Plus de 20 ans</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <span class="form-privacy">Vos données sont traitées de façon confidentielle et ne sont jamais partagées sans votre accord.</span>
+          <button type="button" class="btn-next" onclick="goStep(2)">Étape suivante →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 — SECTEURS -->
+      <div id="step2" style="display:none">
+        <div class="field-section">
+          <div class="field-section-title">Secteurs d'intervention</div>
+          <div class="field">
+            <label>Secteurs dans lesquels vous avez exercé <span>(sélection multiple)</span></label>
+            <div class="pills" id="pills-sectors">
+              <span class="pill" data-group="sectors">Industrie &amp; Manufacturing</span>
+              <span class="pill" data-group="sectors">Services financiers &amp; Banque</span>
+              <span class="pill" data-group="sectors">Retail &amp; Consumer Goods</span>
+              <span class="pill" data-group="sectors">Santé &amp; Pharma</span>
+              <span class="pill" data-group="sectors">Technologies &amp; SaaS</span>
+              <span class="pill" data-group="sectors">Énergie &amp; Utilities</span>
+              <span class="pill" data-group="sectors">Logistique &amp; Transport</span>
+              <span class="pill" data-group="sectors">BTP &amp; Immobilier</span>
+              <span class="pill" data-group="sectors">Media &amp; Publicité</span>
+              <span class="pill" data-group="sectors">Agroalimentaire</span>
+              <span class="pill" data-group="sectors">Luxe &amp; Mode</span>
+              <span class="pill" data-group="sectors">Secteur public &amp; Parapublic</span>
+              <span class="pill" data-group="sectors">ONG &amp; Associations</span>
+              <span class="pill" data-group="sectors">Télécommunications</span>
+              <span class="pill" data-group="sectors">Services professionnels</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Secteur de prédilection <span>(celui où vous êtes le plus légitime)</span></label>
+            <select id="f-sector-main">
+              <option value="">Choisir...</option>
+              <option>Industrie &amp; Manufacturing</option>
+              <option>Services financiers &amp; Banque</option>
+              <option>Retail &amp; Consumer Goods</option>
+              <option>Santé &amp; Pharma</option>
+              <option>Technologies &amp; SaaS</option>
+              <option>Énergie &amp; Utilities</option>
+              <option>Logistique &amp; Transport</option>
+              <option>BTP &amp; Immobilier</option>
+              <option>Media &amp; Publicité</option>
+              <option>Agroalimentaire</option>
+              <option>Luxe &amp; Mode</option>
+              <option>Secteur public &amp; Parapublic</option>
+              <option>Télécommunications</option>
+              <option>Services professionnels</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Zones géographiques <span>(sélection multiple)</span></label>
+            <div class="pills" id="pills-zones">
+              <span class="pill" data-group="zones">Île-de-France</span>
+              <span class="pill" data-group="zones">Régions France</span>
+              <span class="pill" data-group="zones">Europe</span>
+              <span class="pill" data-group="zones">Afrique francophone</span>
+              <span class="pill" data-group="zones">Moyen-Orient</span>
+              <span class="pill" data-group="zones">Amérique du Nord</span>
+              <span class="pill" data-group="zones">Asie-Pacifique</span>
+              <span class="pill" data-group="zones">International (tous marchés)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">Profil hiérarchique</div>
+          <div class="field">
+            <label>Niveau des missions que vous adressez *</label>
+            <select id="f-level" required>
+              <option value="">Choisir...</option>
+              <option>COMEX / Directeur de BU</option>
+              <option>Directeur fonctionnel (N-1 COMEX)</option>
+              <option>Manager senior / Chef de projet stratégique</option>
+              <option>Expert / Consultant opérationnel</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Taille d'entreprise cible <span>(sélection multiple)</span></label>
+            <div class="pills" id="pills-sizes">
+              <span class="pill" data-group="sizes">Start-up (&lt; 50 personnes)</span>
+              <span class="pill" data-group="sizes">PME (50 à 250)</span>
+              <span class="pill" data-group="sizes">ETI (250 à 5 000)</span>
+              <span class="pill" data-group="sizes">Grand groupe (&gt; 5 000)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn-nav" onclick="goStep(1)">← Retour</button>
+          <button type="button" class="btn-next" onclick="goStep(3)">Étape suivante →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 — DISPONIBILITÉ & TJM -->
+      <div id="step3" style="display:none">
+        <div class="field-section">
+          <div class="field-section-title">Disponibilité</div>
+          <div class="field">
+            <label>Disponibilité actuelle *</label>
+            <div class="avail-pills" id="pills-avail">
+              <span class="avail-pill" data-group="avail">Disponible immédiatement</span>
+              <span class="avail-pill" data-group="avail">Disponible sous 2 semaines</span>
+              <span class="avail-pill" data-group="avail">Disponible sous 1 mois</span>
+              <span class="avail-pill" data-group="avail">Disponible sous 3 mois</span>
+              <span class="avail-pill" data-group="avail">En mission (écoute active)</span>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Date de disponibilité <span>(optionnel)</span></label>
+              <input type="date" id="f-avail-date"/>
+            </div>
+            <div class="field">
+              <label>Durée de mission souhaitée</label>
+              <select id="f-duration">
+                <option value="">Choisir...</option>
+                <option>Court terme (1 à 3 mois)</option>
+                <option>Moyen terme (3 à 6 mois)</option>
+                <option>Long terme (6 mois et plus)</option>
+                <option>Pas de préférence</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Mobilité</label>
+            <div class="pills" id="pills-mobility">
+              <span class="pill" data-group="mobility">Full remote accepté</span>
+              <span class="pill" data-group="mobility">Hybride (2-3j/semaine sur site)</span>
+              <span class="pill" data-group="mobility">Présentiel possible</span>
+              <span class="pill" data-group="mobility">Grand déplacement (semaine)</span>
+              <span class="pill" data-group="mobility">International</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">Taux journalier</div>
+          <div class="field">
+            <p class="tjm-display" id="tjm-val">1 200 €/j</p>
+            <p class="tjm-sub">TJM affiché. KALYBRA conserve 20 %, vous percevez <strong id="tjm-mgr">960 €/j</strong>.</p>
+            <input type="range" id="tjm-slider" min="800" max="3500" step="50" value="1200" oninput="updateTJM(this.value)"/>
+            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--slate);margin-top:4px"><span>800 €</span><span>3 500 €</span></div>
+          </div>
+          <div class="field">
+            <label>Statut professionnel actuel *</label>
+            <select id="f-status" required>
+              <option value="">Choisir...</option>
+              <option>Portage salarial</option>
+              <option>Société propre (SASU, SAS, SARL...)</option>
+              <option>Auto-entrepreneur</option>
+              <option>Salarié en recherche de mission</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn-nav" onclick="goStep(2)">← Retour</button>
+          <button type="button" class="btn-next" onclick="goStep(4)">Étape suivante →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 — PROFIL PERSONNEL -->
+      <div id="step4" style="display:none">
+        <div class="field-section">
+          <div class="field-section-title">Informations personnelles</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Prénom *</label>
+              <input type="text" id="f-first" placeholder="Marie" required/>
+            </div>
+            <div class="field">
+              <label>Nom *</label>
+              <input type="text" id="f-last" placeholder="Dupont" required/>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Email professionnel *</label>
+              <input type="email" id="f-email" placeholder="m.dupont@mail.com" required/>
+            </div>
+            <div class="field">
+              <label>Téléphone *</label>
+              <input type="tel" id="f-phone" placeholder="+33 6 xx xx xx xx" required/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Profil LinkedIn <span>(optionnel mais recommandé)</span></label>
+            <input type="url" id="f-linkedin" placeholder="https://linkedin.com/in/marie-dupont"/>
+          </div>
+          <div class="field">
+            <label>Localisation principale</label>
+            <input type="text" id="f-location" placeholder="Paris, Lyon, Bordeaux..."/>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">Pitch de présentation</div>
+          <div class="field">
+            <label>En 3 lignes, qui êtes-vous en tant que manager ? <span>(optionnel)</span></label>
+            <textarea id="f-pitch" placeholder="Ex : CFO de transition spécialisé en restructuration industrielle. 15 ans chez des ETI entre 200 et 2 000 salariés. À l'aise dans les situations de crise et les missions COMEX à fort enjeu."></textarea>
+          </div>
+          <div class="field">
+            <label>Références de missions récentes <span>(optionnel, anonymisable)</span></label>
+            <textarea id="f-refs" placeholder="Ex : DG par intérim, ETI textile 1 400 pers., 8 mois, restructuration complète. Puis CFO, scale-up SaaS, préparation levée Serie B."></textarea>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">CV et documents</div>
+          <div class="field">
+            <label>CV <span>(PDF ou Word, 5 Mo max)</span></label>
+            <div class="upload-zone" onclick="document.getElementById('f-cv').click()">
+              <input type="file" id="f-cv" accept=".pdf,.doc,.docx" onchange="handleFile(this,'cv-name')"/>
+              <div class="upload-icon">📄</div>
+              <span class="upload-label">Cliquer pour ajouter votre CV</span>
+              <span class="upload-hint">PDF, DOC ou DOCX · 5 Mo maximum</span>
+              <p class="upload-filename" id="cv-name"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn-nav" onclick="goStep(3)">← Retour</button>
+          <button type="button" class="btn-submit" onclick="submitForm()">Envoyer mon profil ✓</button>
+        </div>
+        <p style="font-size:0.7rem;color:var(--slate);margin-top:16px;line-height:1.55">En soumettant ce formulaire, vous acceptez d'être contacté par l'équipe KALYBRA. Vos données sont strictement confidentielles et ne seront jamais transmises sans votre accord préalable.</p>
+      </div>
+
+    </form>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-title">Profil reçu.</h2>
+      <p class="success-body">Merci. Notre équipe examine votre profil et revient vers vous sous 48 heures pour valider votre intégration au réseau KALYBRA.</p>
+      <a href="index.html" class="success-back">← Revenir à l'accueil</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // STEP NAVIGATION
+  let currentStep = 1;
+  const totalSteps = 4;
+  const pbarPcts = ['25%', '50%', '75%', '100%'];
+
+  function goStep(n) {
+    document.getElementById('step' + currentStep).style.display = 'none';
+    document.getElementById('s' + currentStep + '-tab').classList.remove('active');
+    if (currentStep < n) {
+      document.getElementById('s' + currentStep + '-tab').classList.add('done');
+    }
+    currentStep = n;
+    document.getElementById('step' + currentStep).style.display = 'block';
+    document.getElementById('s' + currentStep + '-tab').classList.add('active');
+    document.getElementById('pbar').style.width = pbarPcts[currentStep - 1];
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // PILLS (multi-select with cap)
+  const caps = { situations: 4, skills: 5, sectors: 99, zones: 99, sizes: 99, mobility: 99 };
+
+  document.querySelectorAll('.pill').forEach(function(p) {
+    p.addEventListener('click', function() {
+      var group = this.dataset.group;
+      var maxSel = caps[group] || 99;
+      var selected = document.querySelectorAll('.pill[data-group="' + group + '"].selected').length;
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+      } else if (selected < maxSel) {
+        this.classList.add('selected');
+      }
+    });
+  });
+
+  // AVAIL PILLS (single select)
+  document.querySelectorAll('.avail-pill').forEach(function(p) {
+    p.addEventListener('click', function() {
+      document.querySelectorAll('.avail-pill').forEach(function(x){ x.classList.remove('selected'); });
+      this.classList.add('selected');
+    });
+  });
+
+  // TJM SLIDER
+  function updateTJM(val) {
+    val = parseInt(val);
+    var mgr = Math.round(val * 0.8);
+    document.getElementById('tjm-val').textContent = val.toLocaleString('fr-FR') + ' €/j';
+    document.getElementById('tjm-mgr').textContent = mgr.toLocaleString('fr-FR') + ' €/j';
+  }
+
+  // FILE UPLOAD
+  function handleFile(input, labelId) {
+    var label = document.getElementById(labelId);
+    if (input.files && input.files[0]) {
+      label.textContent = '✓ ' + input.files[0].name;
+      label.style.display = 'block';
+    }
+  }
+
+  // SUBMIT
+  function submitForm() {
+    var firstName = document.getElementById('f-first').value.trim();
+    var lastName  = document.getElementById('f-last').value.trim();
+    var email     = document.getElementById('f-email').value.trim();
+    var phone     = document.getElementById('f-phone').value.trim();
+    var func      = document.getElementById('f-function').value;
+
+    if (!firstName || !lastName || !email || !phone || !func) {
+      alert('Merci de remplir les champs obligatoires avant de soumettre.');
+      return;
+    }
+
+    // Collect selections
+    var situations = [...document.querySelectorAll('.pill[data-group="situations"].selected')].map(function(x){return x.textContent}).join(', ');
+    var skills     = [...document.querySelectorAll('.pill[data-group="skills"].selected')].map(function(x){return x.textContent}).join(', ');
+    var sectors    = [...document.querySelectorAll('.pill[data-group="sectors"].selected')].map(function(x){return x.textContent}).join(', ');
+    var zones      = [...document.querySelectorAll('.pill[data-group="zones"].selected')].map(function(x){return x.textContent}).join(', ');
+    var mobility   = [...document.querySelectorAll('.pill[data-group="mobility"].selected')].map(function(x){return x.textContent}).join(', ');
+    var avail      = (document.querySelector('.avail-pill.selected') || {textContent:''}).textContent;
+
+    var tjm    = document.getElementById('tjm-slider').value;
+    var level  = document.getElementById('f-level').value;
+    var status = document.getElementById('f-status').value;
+    var pitch  = document.getElementById('f-pitch').value.trim();
+    var refs   = document.getElementById('f-refs').value.trim();
+    var linkedin = document.getElementById('f-linkedin').value.trim();
+    var location = document.getElementById('f-location').value.trim();
+
+    var body = [
+      'NOUVEAU PROFIL MANAGER KALYBRA',
+      '',
+      '-- IDENTITE --',
+      'Nom : ' + firstName + ' ' + lastName,
+      'Email : ' + email,
+      'Téléphone : ' + phone,
+      'LinkedIn : ' + (linkedin || 'NC'),
+      'Localisation : ' + (location || 'NC'),
+      '',
+      '-- EXPERTISE --',
+      'Fonction : ' + func,
+      'Niveau : ' + level,
+      'Situations : ' + (situations || 'NC'),
+      'Compétences : ' + (skills || 'NC'),
+      '',
+      '-- SECTEURS & ZONES --',
+      'Secteurs : ' + (sectors || 'NC'),
+      'Zones : ' + (zones || 'NC'),
+      '',
+      '-- DISPONIBILITE & TJM --',
+      'Disponibilité : ' + (avail || 'NC'),
+      'Mobilité : ' + (mobility || 'NC'),
+      'TJM : ' + tjm + ' EUR/j',
+      'Statut : ' + status,
+      '',
+      '-- PITCH --',
+      pitch || 'NC',
+      '',
+      '-- REFERENCES --',
+      refs || 'NC'
+    ].join('\n');
+
+    var mailto = 'mailto:boris.janicek@gmail.com'
+      + '?subject=' + encodeURIComponent('KALYBRA — Nouveau manager : ' + firstName + ' ' + lastName + ' (' + func + ')')
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+
+    // Show success
+    document.getElementById('mgr-form').style.display = 'none';
+    document.querySelector('.form-title').style.display = 'none';
+    document.querySelector('.form-sub').style.display = 'none';
+    document.querySelector('.steps').style.display = 'none';
+    document.querySelector('.pbar-wrap').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+  }
+</script>
+</body>
+</html>
