@@ -346,169 +346,220 @@
   #calculator { padding: 100px 5%; background: var(--light); border-top: 1px solid var(--border); }
   .calc-h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; color: var(--navy);
-    margin-bottom: 12px;
+    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; color: var(--navy); margin-bottom: 12px;
   }
-  .calc-sub { font-size: 0.92rem; color: var(--text2); line-height: 1.7; margin-bottom: 48px; }
+  .calc-sub { font-size: 0.92rem; color: var(--text2); line-height: 1.7; margin-bottom: 36px; }
 
-  /* Layout */
-  .calc-layout {
-    display: grid; grid-template-columns: 340px 1fr; gap: 48px; align-items: start;
+  /* Hero slider */
+  .calc-hero-slider {
+    background: var(--white); border-radius: 12px;
+    padding: 24px 28px; margin-bottom: 32px;
+    box-shadow: 0 2px 16px rgba(13,27,64,.06);
+    border: 1.5px solid var(--border);
   }
-  @media (max-width: 960px) { .calc-layout { grid-template-columns: 1fr; } }
+  .chs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 12px; }
+  .chs-label { font-size: 0.88rem; font-weight: 600; color: var(--text2); }
+  .chs-val-wrap {
+    display: flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--border); border-radius: 7px; padding: 8px 14px;
+    background: var(--light); min-width: 160px;
+  }
+  .chs-val-wrap:focus-within { border-color: var(--gold); }
+  .chs-val-wrap span { color: var(--slate); font-size: 0.9rem; }
+  #sl-num {
+    border: none; background: none; outline: none; width: 100%;
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--navy); text-align: right;
+  }
+  #sl-num::-webkit-outer-spin-button, #sl-num::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .chs-range {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 5px; border-radius: 5px; outline: none; cursor: pointer;
+    background: linear-gradient(to right, var(--gold) 36.4%, var(--border) 36.4%);
+    margin-bottom: 6px;
+  }
+  .chs-range::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--gold); border: 3px solid var(--white);
+    box-shadow: 0 2px 8px rgba(200,160,80,.4); cursor: pointer; transition: transform .15s;
+  }
+  .chs-range::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .chs-range::-moz-range-thumb {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--gold); border: 3px solid var(--white); cursor: pointer;
+  }
+  .chs-bounds { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--slate-l); }
 
-  /* Input column */
-  .calc-inputs-col { display: flex; flex-direction: column; gap: 22px; }
+  /* Cards grid */
+  .calc-cards {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px; margin-bottom: 28px; align-items: start;
+  }
+  @media (max-width: 900px) { .calc-cards { grid-template-columns: 1fr; } }
+
+  .calc-card {
+    border-radius: 14px; padding: 28px 24px;
+    border: 1.5px solid var(--border); background: var(--white);
+    position: relative; overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .calc-card:hover { box-shadow: 0 6px 30px rgba(13,27,64,.1); }
+
+  .calc-card--ky {
+    background: var(--navy); border-color: var(--navy);
+    box-shadow: 0 8px 40px rgba(13,27,64,.22);
+    transform: scale(1.025);
+  }
+  .calc-card--ky:hover { box-shadow: 0 12px 50px rgba(13,27,64,.3); }
+
+  .card-badge-top {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--navy);
+    font-size: 0.62rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 0 0 8px 8px;
+  }
+  .card-eyebrow {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold-d); display: block; margin-bottom: 6px; margin-top: 18px;
+  }
+  .card-eyebrow--ky { color: var(--gold); }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; color: var(--navy); margin-bottom: 6px;
+  }
+  .card-title--ky { color: var(--white); }
+  .card-sub { font-size: 0.78rem; color: var(--slate); margin-bottom: 18px; line-height: 1.5; }
+  .card-sub--ky { color: rgba(255,255,255,.55); }
+
+  /* CDI stacked bar */
+  .card-cost-bar {
+    display: flex; height: 28px; border-radius: 6px; overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .ccb-seg {
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    transition: width .4s ease;
+  }
+  .ccb-seg span { font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,.85); white-space: nowrap; padding: 0 5px; }
+  .ccb-salary  { background: #1e3a6e; }
+  .ccb-bonus   { background: #2e5a9e; }
+  .ccb-charges { background: #3d7acc; }
+  .ccb-extras  { background: #6ea8e8; }
+
+  .card-cost-legend {
+    display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 18px;
+  }
+  .card-cost-legend span { font-size: 0.68rem; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+  .leg-dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* TJM split bar (Transition + KALYBRA) */
+  .card-tjm-bar {
+    display: flex; height: 36px; border-radius: 7px; overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .ctb-manager, .ctb-cabinet {
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; transition: width .4s ease;
+  }
+  .ctb-manager span, .ctb-cabinet span {
+    font-size: 0.68rem; font-weight: 600; white-space: nowrap; padding: 0 8px;
+  }
+  .ctb-manager      { background: var(--navy); }
+  .ctb-manager span { color: rgba(255,255,255,.9); }
+  .ctb-manager--ky  { background: rgba(255,255,255,.18); }
+  .ctb-manager--ky span { color: rgba(255,255,255,.9); }
+  .ctb-cabinet--tr  { background: #dc2626; }
+  .ctb-cabinet--tr span { color: rgba(255,255,255,.9); }
+  .ctb-cabinet--ky  { background: var(--gold); }
+  .ctb-cabinet--ky span { color: var(--navy); }
+  .card-tjm-note { font-size: 0.68rem; color: var(--slate-l); margin-bottom: 18px; font-style: italic; }
+  .card-tjm-note--ky { color: rgba(255,255,255,.4); }
+
+  /* KPIs */
+  .card-kpi { display: flex; gap: 16px; margin-bottom: 14px; }
+  .kpi { display: flex; flex-direction: column; }
+  .kpi-val { font-size: 1.25rem; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .kpi-val.kpi--warn  { color: #dc2626; }
+  .kpi-val.kpi--ky    { color: var(--gold); }
+  .kpi-lbl { font-size: 0.65rem; color: var(--slate-l); margin-top: 2px; }
+  .kpi-lbl--ky { color: rgba(255,255,255,.4); }
+
+  /* Badge */
+  .card-vs-badge {
+    display: inline-flex; padding: 4px 10px; border-radius: 5px;
+    font-size: 0.7rem; font-weight: 700; margin-bottom: 18px;
+  }
+  .badge--red  { background: rgba(220,38,38,.1); color: #dc2626; }
+  .badge--gold { background: rgba(200,160,80,.18); color: var(--gold-d); }
+  .badge--green { background: rgba(34,197,94,.12); color: #16a34a; }
+  .check { color: #22c55e; }
+  .cross { color: var(--slate-l); }
+
+  /* Facts list */
+  .card-facts { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .card-facts li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; line-height: 1.4; }
+  .fact-neutral { color: var(--text2); }
+  .fact-warn    { color: #b91c1c; }
+  .fact-good    { color: rgba(255,255,255,.75); }
+  .fact-good strong { color: var(--gold); }
+  .fact-icon { flex-shrink: 0; font-size: 0.8em; }
+
+  /* Savings callout */
+  .calc-savings {
+    background: var(--navy); border-radius: 14px; padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .savings-inner { display: flex; flex-direction: column; gap: 16px; }
+  .savings-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+  .savings-numbers { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+  .savings-item { flex: 1; min-width: 160px; padding: 0 24px; }
+  .savings-item:first-child { padding-left: 0; }
+  .savings-big { display: block; font-size: 1.8rem; font-weight: 800; color: var(--gold); line-height: 1.1; }
+  .savings-sub { font-size: 0.72rem; color: rgba(255,255,255,.4); margin-top: 3px; display: block; }
+  .savings-divider { width: 1px; height: 48px; background: rgba(255,255,255,.08); flex-shrink: 0; }
+  @media (max-width: 680px) { .savings-numbers { flex-direction: column; } .savings-divider { display: none; } .savings-item { padding: 8px 0; } }
+
+  /* Advanced hypotheses */
+  .calc-advanced {
+    background: var(--white); border-radius: 10px;
+    border: 1.5px solid var(--border); margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .calc-adv-summary {
+    padding: 14px 20px; cursor: pointer;
+    font-size: 0.78rem; font-weight: 600; color: var(--text2);
+    list-style: none; display: flex; align-items: center; gap: 8px;
+    user-select: none;
+  }
+  .calc-adv-summary::before { content: "⚙"; font-size: 0.85em; }
+  .calc-adv-summary::-webkit-details-marker { display: none; }
+  .calc-adv-body { padding: 4px 20px 20px; border-top: 1px solid var(--border); }
+  .adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; margin-bottom: 14px; }
+  @media (max-width: 640px) { .adv-grid { grid-template-columns: 1fr; } }
+  .adv-note { font-size: 0.72rem; color: var(--slate-l); line-height: 1.6; font-style: italic; border-top: 1px solid var(--border); padding-top: 12px; }
 
   .calc-inp-group {}
-  .calc-inp-header {
-    display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 8px;
-  }
-  .calc-inp-label { font-size: 0.78rem; font-weight: 600; color: var(--text2); letter-spacing: 0.02em; }
-  .calc-inp-val { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
-
+  .calc-inp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .calc-inp-label { font-size: 0.76rem; font-weight: 600; color: var(--text2); }
+  .calc-inp-val   { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
   .calc-slider {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 4px; border-radius: 4px;
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 4px;
     background: linear-gradient(to right, var(--gold) 36%, var(--border) 36%);
-    outline: none; cursor: pointer; margin-bottom: 5px;
+    outline: none; cursor: pointer;
   }
   .calc-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
     background: var(--gold); border: 2px solid var(--white);
-    box-shadow: 0 1px 6px rgba(200,160,80,.4); cursor: pointer;
-    transition: transform .15s;
+    box-shadow: 0 1px 5px rgba(200,160,80,.4); cursor: pointer; transition: transform .15s;
   }
   .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
   .calc-slider::-moz-range-thumb {
-    width: 18px; height: 18px; border-radius: 50%;
+    width: 16px; height: 16px; border-radius: 50%;
     background: var(--gold); border: 2px solid var(--white); cursor: pointer;
   }
-  .calc-slider-bounds {
-    display: flex; justify-content: space-between;
-    font-size: 0.68rem; color: var(--slate-l);
-  }
-
-  /* View toggle */
-  .calc-view-toggle {
-    display: flex; background: var(--border); border-radius: 8px; padding: 3px;
-    margin-top: 4px;
-  }
-  .calc-tog {
-    flex: 1; padding: 9px 12px; border: none; border-radius: 6px;
-    font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600;
-    letter-spacing: 0.03em; cursor: pointer; background: none; color: var(--slate);
-    transition: all .2s;
-  }
-  .calc-tog--active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-  .calc-view-hint { font-size: 0.74rem; color: var(--slate); line-height: 1.5; }
-
-  /* Results column */
-  .calc-results-col {}
-  .calc-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 20px rgba(13,27,64,.06); }
-  .calc-table { width: 100%; border-collapse: collapse; background: var(--white); }
-  .calc-table thead tr { border-bottom: 1px solid var(--border); }
-  .calc-table th {
-    padding: 15px 16px; text-align: left;
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--slate); background: var(--white);
-  }
-  .calc-table th.col-kal { background: var(--navy); color: var(--gold); }
-  .calc-table td {
-    padding: 14px 16px; border-bottom: 1px solid var(--border);
-    font-size: 0.875rem; color: var(--text2);
-  }
-  .calc-table tr:last-child td { border-bottom: none; }
-  .calc-table td.col-kal { background: rgba(13,27,64,.03); font-weight: 600; color: var(--navy); }
-  .calc-table tr.row-total td {
-    font-size: 1rem; font-weight: 700; color: var(--navy);
-    background: var(--light); border-top: 1px solid var(--border);
-  }
-  .calc-table tr.row-total td.col-kal { background: var(--navy); color: var(--gold); font-size: 1rem; }
-  .calc-row-label { font-size: 0.78rem !important; font-weight: 600 !important; color: var(--navy) !important; white-space: nowrap; }
-  .calc-tjm-note { font-size: 0.75em; color: var(--slate-l); }
-  .opaque { color: var(--slate-l); font-size: .8em; }
-
-  .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; margin-left: 5px; white-space: nowrap; }
-  .badge--red   { background: rgba(239,68,68,.1);  color: #dc2626; }
-  .badge--green { background: rgba(34,197,94,.12); color: #16a34a; }
-  .check { color: var(--green); font-weight: 700; }
-  .cross { color: var(--slate-l); }
-
-  /* TJM decomposition bars */
-  .tjm-decomp { margin-top: 24px; padding: 22px 24px; background: var(--white); border-radius: 10px; box-shadow: 0 2px 20px rgba(13,27,64,.06); }
-  .tjm-decomp-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); margin-bottom: 18px; }
-  .tjm-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .tjm-bar-lbl { font-size: 0.75rem; font-weight: 600; color: var(--text2); width: 70px; flex-shrink: 0; }
-  .tjm-bar-track { flex: 1; display: flex; border-radius: 5px; overflow: hidden; height: 34px; }
-  .tjm-seg { display: flex; align-items: center; justify-content: center; transition: width .4s ease; overflow: hidden; }
-  .tjm-seg-lbl { font-size: 0.72rem; font-weight: 600; color: var(--white); white-space: nowrap; padding: 0 8px; }
-  .tjm-manager    { background: var(--navy); }
-  .tjm-cabinet-tr { background: #dc2626; }
-  .tjm-cabinet-ky { background: var(--gold); }
-  .tjm-cabinet-ky .tjm-seg-lbl { color: var(--navy); }
-  .tjm-bar-total { font-size: 0.78rem; font-weight: 700; color: var(--navy); width: 58px; flex-shrink: 0; text-align: right; }
-  .tjm-decomp-note { font-size: 0.78rem; color: var(--slate); line-height: 1.6; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
-
-  /* Inputs header */
-  .calc-inputs-title {
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--navy); margin-bottom: 4px;
-  }
-  .calc-inputs-sub {
-    display: block; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.02em;
-    text-transform: none; color: var(--slate); margin-top: 2px;
-  }
-  .calc-inp-min { font-size: 0.68rem; font-weight: 400; color: var(--slate-l); }
-
-  /* Info icon + tooltip */
-  .calc-info-icon {
-    position: relative; cursor: help; color: var(--gold-d);
-    font-style: normal; font-size: 0.8em; margin-left: 4px;
-  }
-  .calc-tooltip {
-    display: none; position: absolute; left: 50%; bottom: calc(100% + 6px);
-    transform: translateX(-50%);
-    width: 240px; padding: 10px 12px;
-    background: var(--navy); color: rgba(255,255,255,.88);
-    font-size: 0.72rem; line-height: 1.55; font-weight: 400;
-    border-radius: 6px; box-shadow: 0 4px 20px rgba(7,16,40,.25);
-    z-index: 50; pointer-events: none; white-space: normal;
-  }
-  .calc-info-icon:hover .calc-tooltip,
-  .calc-info-icon:focus .calc-tooltip { display: block; }
-
-  /* N/A locked cells */
-  .calc-na {
-    background: rgba(0,0,0,.025); text-align: center;
-  }
-  .col-kal-na {
-    background: rgba(13,27,64,.06) !important; text-align: center;
-  }
-  .na-lbl {
-    font-size: 0.72rem; color: var(--slate-l); font-style: italic;
-    display: inline-flex; align-items: center; gap: 5px;
-  }
-  .na-lbl::before { content: "✕"; font-style: normal; font-size: 0.7em; color: var(--border); }
-
-  /* Component rows (cost build-up) */
-  .row-component td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
-  .row-component td:first-child { background: rgba(13,27,64,.015); }
-  .row-note {
-    display: block; font-size: 0.68rem; color: var(--slate-l);
-    font-weight: 400; margin-top: 2px; font-style: italic;
-  }
-  .col-label { min-width: 180px; }
 
   .calc-footnote {
-    font-size: 0.72rem; color: var(--slate-l); line-height: 1.65;
-    margin-top: 16px; font-style: italic;
-  }
-  @media (max-width: 760px) {
-    .calc-table th, .calc-table td { padding: 11px 10px; font-size: 0.78rem; }
-    .tjm-bar-lbl { width: 52px; }
-    .tjm-bar-total { width: 46px; font-size: 0.72rem; }
+    font-size: 0.72rem; color: var(--slate-l); line-height: 1.65; font-style: italic;
   }
 
 /* ════════════════
@@ -1053,224 +1104,189 @@
 <section id="calculator">
   <div class="container">
     <span class="section-label fade-up">Calculateur de coût réel</span>
-    <h2 class="calc-h2 fade-up" style="transition-delay:.06s">Le même coût qu'un CDI.<br>L'opérationnalité en plus.</h2>
-    <p class="calc-sub fade-up" style="transition-delay:.12s">Ajustez les hypothèses CDI. Les colonnes Transition classique et KALYBRA n'ont aucun de ces coûts — ils font partie du TJM.</p>
+    <h2 class="calc-h2 fade-up" style="transition-delay:.06s">Ce que vous payez vraiment.</h2>
+    <p class="calc-sub fade-up" style="transition-delay:.1s">Entrez le salaire brut du poste. Découvrez le coût réel du CDI face aux deux solutions de transition.</p>
 
-    <div class="calc-layout fade-up" style="transition-delay:.16s">
+    <!-- Hero slider -->
+    <div class="calc-hero-slider fade-up" style="transition-delay:.14s">
+      <div class="chs-header">
+        <span class="chs-label">Salaire brut annuel fixe du poste</span>
+        <div class="chs-val-wrap">
+          <input type="number" id="sl-num" min="70000" max="400000" step="5000" value="120000"/>
+          <span>€</span>
+        </div>
+      </div>
+      <input type="range" class="chs-range" id="sl-salary" min="70000" max="400000" step="5000" value="120000"/>
+      <div class="chs-bounds"><span>70 000 €</span><span>400 000 €</span></div>
+    </div>
 
-      <!-- ── SLIDERS (CDI only) ── -->
-      <div class="calc-inputs-col">
+    <!-- Three cards -->
+    <div class="calc-cards fade-up" style="transition-delay:.2s">
 
-        <p class="calc-inputs-title">Hypothèses CDI <span class="calc-inputs-sub">Transition classique et KALYBRA n'ont pas ces charges</span></p>
-
-        <div class="calc-inp-group">
-          <div class="calc-inp-header">
-            <span class="calc-inp-label">Salaire brut annuel fixe</span>
-            <span class="calc-inp-val" id="v-salary">120 000 €</span>
+      <!-- CDI -->
+      <div class="calc-card calc-card--cdi">
+        <span class="card-eyebrow">Embauche</span>
+        <h3 class="card-title">CDI</h3>
+        <p class="card-sub">Coût réel = bien plus que le salaire affiché</p>
+        <div class="card-cost-bar" id="cdi-bar">
+          <div class="ccb-seg ccb-salary" id="ccb-salary" style="width:52%"><span>Salaire</span></div>
+          <div class="ccb-seg ccb-bonus"  id="ccb-bonus"  style="width:11%"><span>Bonus</span></div>
+          <div class="ccb-seg ccb-charges" id="ccb-charges" style="width:28%"><span>Charges</span></div>
+          <div class="ccb-seg ccb-extras"  id="ccb-extras"  style="width:9%"><span>Avantages</span></div>
+        </div>
+        <div class="card-cost-legend">
+          <span><i class="leg-dot" style="background:#1e3a6e"></i>Salaire <b id="leg-salary">120 000</b> €</span>
+          <span><i class="leg-dot" style="background:#2e5a9e"></i>Bonus <b id="leg-bonus">24 000</b> €</span>
+          <span><i class="leg-dot" style="background:#3d7acc"></i>Charges <b id="leg-charges">64 800</b> €</span>
+          <span><i class="leg-dot" style="background:#6ea8e8"></i>Avantages ① <b id="leg-extras">20 000</b> €</span>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi">
+            <span class="kpi-val" id="c-cdi-total">228 800 €</span>
+            <span class="kpi-lbl">coût total / an</span>
           </div>
-          <input type="range" class="calc-slider" id="sl-salary" min="70000" max="400000" step="5000" value="120000"/>
-          <div class="calc-slider-bounds"><span>70 k€</span><span>400 k€</span></div>
-        </div>
-
-        <div class="calc-inp-group">
-          <div class="calc-inp-header">
-            <span class="calc-inp-label">Bonus / variable moyen</span>
-            <span class="calc-inp-val" id="v-bonus">20 %</span>
+          <div class="kpi">
+            <span class="kpi-val" id="c-cdi-tjm">1 035 €/j</span>
+            <span class="kpi-lbl">par jour réel *</span>
           </div>
-          <input type="range" class="calc-slider" id="sl-bonus" min="0" max="50" step="5" value="20"/>
-          <div class="calc-slider-bounds"><span>0 %</span><span>50 %</span></div>
         </div>
-
-        <div class="calc-inp-group">
-          <div class="calc-inp-header">
-            <span class="calc-inp-label">Charges patronales</span>
-            <span class="calc-inp-val" id="v-charges">45 %</span>
-          </div>
-          <input type="range" class="calc-slider" id="sl-charges" min="30" max="60" step="1" value="45"/>
-          <div class="calc-slider-bounds"><span>30 %</span><span>60 %</span></div>
-        </div>
-
-        <div class="calc-inp-group">
-          <div class="calc-inp-header">
-            <span class="calc-inp-label">
-              Avantages annexes
-              <span class="calc-info-icon" tabindex="0">ⓘ<span class="calc-tooltip">Mutuelle entreprise, retraite complémentaire, véhicule de fonction, titres-restaurant, téléphone, PC, formations internes — tout ce que l'employeur finance en dehors du salaire brut.</span></span>
-            </span>
-            <span class="calc-inp-val" id="v-extras">20 000 €</span>
-          </div>
-          <input type="range" class="calc-slider" id="sl-extras" min="0" max="50000" step="1000" value="20000"/>
-          <div class="calc-slider-bounds"><span>0 €</span><span>50 k€</span></div>
-        </div>
-
-        <div class="calc-inp-group">
-          <div class="calc-inp-header">
-            <span class="calc-inp-label">Congés payés + absences <span class="calc-inp-min">(min. légal 25 j)</span></span>
-            <span class="calc-inp-val" id="v-conges">30 j</span>
-          </div>
-          <input type="range" class="calc-slider" id="sl-conges" min="25" max="45" step="1" value="30"/>
-          <div class="calc-slider-bounds"><span>25 j</span><span>45 j</span></div>
-        </div>
-
-        <div class="calc-view-toggle">
-          <button id="tog-total" class="calc-tog calc-tog--active" onclick="setCalcView('total')">Coût total annuel</button>
-          <button id="tog-real"  class="calc-tog" onclick="setCalcView('real')">TJM jour réel</button>
-        </div>
-        <p class="calc-view-hint" id="calc-view-hint">Comparaison sur 251 jours ouvrés annuels.</p>
-
+        <ul class="card-facts">
+          <li class="fact-neutral"><span class="fact-icon">⏱</span> 4 à 8 semaines pour recruter</li>
+          <li class="fact-neutral"><span class="fact-icon">📅</span> 2 à 3 mois avant opérationnalité</li>
+          <li class="fact-neutral"><span class="fact-icon">🎯</span> <span id="c-cdi-conges">30</span> j/an non travaillés</li>
+        </ul>
       </div>
 
-      <!-- ── TABLE ── -->
-      <div class="calc-results-col">
-        <div class="calc-table-wrap">
-          <table class="calc-table">
-            <thead>
-              <tr>
-                <th class="col-label">Composante</th>
-                <th>CDI</th>
-                <th>Transition classique</th>
-                <th class="col-kal">KALYBRA ✦</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              <tr class="row-component">
-                <td class="calc-row-label">Salaire brut fixe</td>
-                <td><span id="r-cdi-salary">120 000</span> €</td>
-                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
-                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
-              </tr>
-
-              <tr class="row-component">
-                <td class="calc-row-label">Bonus / variable</td>
-                <td><span id="r-cdi-bonus">24 000</span> €</td>
-                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
-                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
-              </tr>
-
-              <tr class="row-component">
-                <td class="calc-row-label">
-                  Charges patronales
-                  <span class="row-note">Sur salaire + bonus</span>
-                </td>
-                <td><span id="r-cdi-charges">64 800</span> €</td>
-                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
-                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
-              </tr>
-
-              <tr class="row-component">
-                <td class="calc-row-label">
-                  Avantages annexes
-                  <span class="row-note">Mutuelle, retraite compl., véhicule, formation...</span>
-                </td>
-                <td><span id="r-cdi-extras">20 000</span> €</td>
-                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
-                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
-              </tr>
-
-              <tr class="row-component">
-                <td class="calc-row-label">
-                  Congés payés + absences
-                  <span class="row-note">Min. légal 25 j en France</span>
-                </td>
-                <td><span id="r-cdi-conges">30</span> j non facturés</td>
-                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
-                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
-              </tr>
-
-              <tr class="row-total">
-                <td class="calc-row-label" id="r-total-label">Coût total annuel</td>
-                <td><span id="r-cdi-total">228 800</span> €</td>
-                <td>
-                  <span id="r-tr-total">316 260</span> €
-                  <span class="badge badge--red" id="r-tr-badge">+38 % vs CDI</span>
-                </td>
-                <td class="col-kal">
-                  <span id="r-kal-total">251 000</span> €
-                  <span class="badge badge--green" id="r-kal-badge">+10 % vs CDI</span>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">Jours facturés</td>
-                <td><span id="r-cdi-jours">221</span> j travaillés</td>
-                <td>251 j ouvrés</td>
-                <td class="col-kal">251 j ouvrés</td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">TJM facturé client</td>
-                <td><span id="r-cdi-tjm">1 035</span> €/j</td>
-                <td><span id="r-tr-tjm">1 260</span> €/j</td>
-                <td class="col-kal"><span id="r-kal-tjm">1 000</span> €/j</td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">Marge cabinet</td>
-                <td>n/a</td>
-                <td>~36 % <em class="opaque">(opaque)</em></td>
-                <td class="col-kal">20 % affichée</td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">Délai 1er profil</td>
-                <td>4 à 8 sem.</td>
-                <td>10 à 15 j</td>
-                <td class="col-kal"><strong>24 heures</strong></td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">Opérationnalité</td>
-                <td>2 à 3 mois</td>
-                <td>J+5</td>
-                <td class="col-kal"><strong>Jour 1</strong></td>
-              </tr>
-
-              <tr>
-                <td class="calc-row-label">Exosquelette IA</td>
-                <td><span class="cross">✕</span></td>
-                <td><span class="cross">✕</span></td>
-                <td class="col-kal"><span class="check">✓</span> Inclus</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-
-        <!-- TJM decomp -->
-        <div class="tjm-decomp">
-          <p class="tjm-decomp-title">Décomposition du TJM — ce que perçoit le manager vs le cabinet</p>
-          <div class="tjm-bar-row">
-            <span class="tjm-bar-lbl">Transition classique</span>
-            <div class="tjm-bar-track">
-              <div class="tjm-seg tjm-manager" id="bar-tr-manager" style="width:63.5%">
-                <span class="tjm-seg-lbl">Manager <span id="lbl-tr-manager">800 €</span></span>
-              </div>
-              <div class="tjm-seg tjm-cabinet-tr" id="bar-tr-cabinet" style="width:36.5%">
-                <span class="tjm-seg-lbl">Cabinet <span id="lbl-tr-cabinet">460 €</span></span>
-              </div>
-            </div>
-            <span class="tjm-bar-total"><span id="lbl-tr-tjm2">1 260</span> €/j</span>
+      <!-- Transition classique -->
+      <div class="calc-card calc-card--tr">
+        <span class="card-eyebrow">Cabinets classiques</span>
+        <h3 class="card-title">Transition classique</h3>
+        <p class="card-sub">Plus cher qu'un CDI — marge opaque</p>
+        <div class="card-tjm-bar">
+          <div class="ctb-manager" id="bar-tr-m" style="width:63.5%">
+            <span>Manager <b id="lbl-tr-m">800 €</b></span>
           </div>
-          <div class="tjm-bar-row">
-            <span class="tjm-bar-lbl">KALYBRA</span>
-            <div class="tjm-bar-track">
-              <div class="tjm-seg tjm-manager" id="bar-ky-manager" style="width:80%">
-                <span class="tjm-seg-lbl">Manager <span id="lbl-ky-manager">800 €</span></span>
-              </div>
-              <div class="tjm-seg tjm-cabinet-ky" id="bar-ky-cabinet" style="width:20%">
-                <span class="tjm-seg-lbl"><span id="lbl-ky-cabinet">200 €</span></span>
-              </div>
-            </div>
-            <span class="tjm-bar-total"><span id="lbl-ky-tjm2">1 000</span> €/j</span>
+          <div class="ctb-cabinet ctb-cabinet--tr" id="bar-tr-c" style="width:36.5%">
+            <span>Cabinet <b id="lbl-tr-c">460 €</b></span>
           </div>
-          <p class="tjm-decomp-note">Le manager perçoit le même TJM chez KALYBRA qu'en transition classique. C'est la marge cabinet qui change : 200 € vs 460 €, soit 2,3 fois moins.</p>
         </div>
+        <p class="card-tjm-note">Sur chaque euro facturé au client</p>
+        <div class="card-kpi">
+          <div class="kpi">
+            <span class="kpi-val kpi--warn" id="c-tr-total">316 260 €</span>
+            <span class="kpi-lbl">coût total / an</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val" id="c-tr-tjm">1 260 €/j</span>
+            <span class="kpi-lbl">TJM facturé</span>
+          </div>
+        </div>
+        <div class="card-vs-badge badge--red" id="c-tr-badge">+38 % vs CDI</div>
+        <ul class="card-facts">
+          <li class="fact-neutral"><span class="fact-icon">⏱</span> 10 à 15 jours pour un profil</li>
+          <li class="fact-neutral"><span class="fact-icon">📅</span> Opérationnel J+5</li>
+          <li class="fact-warn"><span class="fact-icon">🔒</span> Marge non contractuelle</li>
+        </ul>
+      </div>
 
-        <p class="calc-footnote">
-          * CDI : TJM calculé sur <span id="fn-jours">221</span> jours réellement travaillés (<span id="fn-conges">30</span> j de congés et absences déduits de 251 j ouvrés). Transition classique et KALYBRA : facturés sur les 251 jours ouvrés, sans congés payés, sans charges patronales, sans bonus ni avantages. Chiffres indicatifs. Source : bases internes KALYBRA.
-        </p>
+      <!-- KALYBRA -->
+      <div class="calc-card calc-card--ky">
+        <span class="card-badge-top">✦ Recommandé</span>
+        <span class="card-eyebrow card-eyebrow--ky">Nouvelle génération</span>
+        <h3 class="card-title card-title--ky">KALYBRA</h3>
+        <p class="card-sub card-sub--ky">Même coût qu'un CDI — marge affichée 20 %</p>
+        <div class="card-tjm-bar">
+          <div class="ctb-manager ctb-manager--ky" id="bar-ky-m" style="width:80%">
+            <span>Manager <b id="lbl-ky-m">800 €</b></span>
+          </div>
+          <div class="ctb-cabinet ctb-cabinet--ky" id="bar-ky-c" style="width:20%">
+            <span><b id="lbl-ky-c">200 €</b></span>
+          </div>
+        </div>
+        <p class="card-tjm-note card-tjm-note--ky">Le manager perçoit le même TJM — 2,3× moins pour le cabinet</p>
+        <div class="card-kpi">
+          <div class="kpi">
+            <span class="kpi-val kpi--ky" id="c-kal-total">251 000 €</span>
+            <span class="kpi-lbl kpi-lbl--ky">coût total / an</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val kpi--ky" id="c-kal-tjm">1 000 €/j</span>
+            <span class="kpi-lbl kpi-lbl--ky">TJM facturé</span>
+          </div>
+        </div>
+        <div class="card-vs-badge badge--gold" id="c-kal-badge">≃ CDI</div>
+        <ul class="card-facts">
+          <li class="fact-good"><span class="fact-icon">⚡</span> <strong>24 heures</strong> — premier profil</li>
+          <li class="fact-good"><span class="fact-icon">🚀</span> Opérationnel <strong>Jour 1</strong></li>
+          <li class="fact-good"><span class="fact-icon">🤖</span> Exosquelette IA inclus</li>
+        </ul>
       </div>
     </div>
+
+    <!-- Savings callout -->
+    <div class="calc-savings fade-up" style="transition-delay:.26s">
+      <div class="savings-inner">
+        <span class="savings-label">En choisissant KALYBRA plutôt qu'un cabinet classique</span>
+        <div class="savings-numbers">
+          <div class="savings-item">
+            <span class="savings-big" id="s-euros">65 260 €</span>
+            <span class="savings-sub">économisés par an</span>
+          </div>
+          <div class="savings-divider"></div>
+          <div class="savings-item">
+            <span class="savings-big" id="s-days">65 jours</span>
+            <span class="savings-sub">de mission supplémentaires</span>
+          </div>
+          <div class="savings-divider"></div>
+          <div class="savings-item">
+            <span class="savings-big">2,3×</span>
+            <span class="savings-sub">marge KALYBRA vs cabinet classique</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hypothèses avancées (collapsible) -->
+    <details class="calc-advanced fade-up" style="transition-delay:.3s">
+      <summary class="calc-adv-summary">Ajuster les hypothèses CDI</summary>
+      <div class="calc-adv-body">
+        <div class="adv-grid">
+          <div class="calc-inp-group">
+            <div class="calc-inp-header">
+              <span class="calc-inp-label">Bonus / variable</span>
+              <span class="calc-inp-val" id="v-bonus">20 %</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-bonus" min="0" max="50" step="5" value="20"/>
+          </div>
+          <div class="calc-inp-group">
+            <div class="calc-inp-header">
+              <span class="calc-inp-label">Charges patronales</span>
+              <span class="calc-inp-val" id="v-charges">45 %</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-charges" min="30" max="60" step="1" value="45"/>
+          </div>
+          <div class="calc-inp-group">
+            <div class="calc-inp-header">
+              <span class="calc-inp-label">Avantages annexes ①</span>
+              <span class="calc-inp-val" id="v-extras">20 000 €</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-extras" min="0" max="50000" step="1000" value="20000"/>
+          </div>
+          <div class="calc-inp-group">
+            <div class="calc-inp-header">
+              <span class="calc-inp-label">Congés + absences <span style="font-weight:400;color:var(--slate-l)">(min. 25 j légal)</span></span>
+              <span class="calc-inp-val" id="v-conges">30 j</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-conges" min="25" max="45" step="1" value="30"/>
+          </div>
+        </div>
+        <p class="adv-note">① Avantages annexes : mutuelle entreprise, retraite complémentaire, véhicule de fonction, titres-restaurant, téléphone, PC, formations internes. Ces coûts n'existent pas en management de transition — ils sont absorbés par le manager indépendant.</p>
+      </div>
+    </details>
+
+    <p class="calc-footnote fade-up" style="transition-delay:.32s">
+      * TJM CDI calculé sur les jours réellement travaillés (251 j ouvrés moins congés et absences). Transition classique et KALYBRA facturent sur 251 j ouvrés : aucun congé payé, aucune charge patronale, aucun bonus ni avantage annexe. Chiffres indicatifs — source : bases internes KALYBRA.
+    </p>
   </div>
 </section>
 
@@ -1702,124 +1718,125 @@ const countIO = new IntersectionObserver((entries) => {
 document.querySelectorAll('.js-stat').forEach(el => countIO.observe(el));
 
 /* ── Calculator ── */
-const JOURS_OUVRES = 251;
-const MANAGER_TJM  = 800;   // TJM manager identique Transition et KALYBRA
-const TR_MARGIN    = 0.365; // marge Transition ~36.5%
-const KAL_MARGIN   = 0.200; // marge KALYBRA 20%
-
-// Compute TJM from CDI cost per real day
-function calcTJM(cdiCostPerDay, margin) {
-  return Math.round(cdiCostPerDay / (1 - margin));
-}
+const JOURS_OUVRES  = 251;
+const MANAGER_TJM   = 800;
 
 function fmtK(n) { return Math.round(n).toLocaleString('fr-FR'); }
 function fmtPct(n) { return (n >= 0 ? '+' : '') + n.toFixed(0) + ' %'; }
 
-let calcView = 'total'; // 'total' | 'real'
-
 function renderCalc() {
-  const salary   = parseInt(document.getElementById('sl-salary').value);
-  const bonus    = parseInt(document.getElementById('sl-bonus').value) / 100;
-  const charges  = parseInt(document.getElementById('sl-charges').value) / 100;
-  const extras   = parseInt(document.getElementById('sl-extras').value);
-  const conges   = parseInt(document.getElementById('sl-conges').value);
-
+  const salary  = parseInt(document.getElementById('sl-salary').value);
+  const bonus   = parseInt(document.getElementById('sl-bonus').value) / 100;
+  const charges = parseInt(document.getElementById('sl-charges').value) / 100;
+  const extras  = parseInt(document.getElementById('sl-extras').value);
+  const conges  = parseInt(document.getElementById('sl-conges').value);
   const joursReels = JOURS_OUVRES - conges;
 
-  // CDI total cost
-  const cdiTotal   = salary * (1 + bonus) * (1 + charges) + extras;
-  const cdiTJMReal = cdiTotal / joursReels;  // cost per actually-worked day
+  // CDI cost breakdown
+  const cdiSalary  = salary;
+  const cdiBonus   = salary * bonus;
+  const cdiCharges = salary * (1 + bonus) * charges;
+  const cdiTotal   = cdiSalary + cdiBonus + cdiCharges + extras;
+  const cdiTJM     = cdiTotal / joursReels;
 
-  // Transition & KALYBRA TJMs (based on CDI real-day cost)
-  const trTJM  = Math.round(cdiTJMReal * 1.2170);
-  const kalTJM = Math.round(cdiTJMReal * 0.9659);
-
+  // Transition & KALYBRA TJMs
+  const trTJM  = Math.round(cdiTJM * 1.2170);
+  const kalTJM = Math.round(cdiTJM * 0.9659);
   const trTotal  = trTJM  * JOURS_OUVRES;
   const kalTotal = kalTJM * JOURS_OUVRES;
 
-  // Cabinet margins in €
-  const trCabinet  = trTJM  - MANAGER_TJM;
-  const kalCabinet = kalTJM - MANAGER_TJM;
-
   const trPct  = (trTotal  - cdiTotal) / cdiTotal * 100;
   const kalPct = (kalTotal - cdiTotal) / cdiTotal * 100;
+  const savings     = trTotal - kalTotal;
+  const savingsDays = Math.round(savings / kalTJM);
 
-  // Displayed values depend on view
-  if (calcView === 'total') {
-    document.getElementById('r-cdi-total').textContent  = fmtK(cdiTotal);
-    document.getElementById('r-cdi-tjm').textContent    = fmtK(cdiTJMReal);
-    document.getElementById('r-cdi-note').textContent   = '* jours réels';
-    document.getElementById('r-tr-total').textContent   = fmtK(trTotal);
-    document.getElementById('r-tr-tjm').textContent     = fmtK(trTJM);
-    document.getElementById('r-kal-total').textContent  = fmtK(kalTotal);
-    document.getElementById('r-kal-tjm').textContent    = fmtK(kalTJM);
-    document.getElementById('r-total-label').textContent = 'Coût total annuel';
-    document.getElementById('calc-view-hint').textContent = 'Coût total sur 251 jours ouvrés — comparaison annuelle.';
-  } else {
-    // Real: show cost per day worked
-    document.getElementById('r-cdi-total').textContent  = fmtK(cdiTJMReal);
-    document.getElementById('r-cdi-tjm').textContent    = fmtK(cdiTJMReal);
-    document.getElementById('r-cdi-note').textContent   = '';
-    document.getElementById('r-tr-total').textContent   = fmtK(trTJM);
-    document.getElementById('r-tr-tjm').textContent     = fmtK(trTJM);
-    document.getElementById('r-kal-total').textContent  = fmtK(kalTJM);
-    document.getElementById('r-kal-tjm').textContent    = fmtK(kalTJM);
-    document.getElementById('r-total-label').textContent = 'TJM par jour travaillé';
-    document.getElementById('calc-view-hint').textContent = 'Coût par jour réellement travaillé : CDI ' + joursReels + ' j, Transition/KALYBRA 251 j.';
-  }
+  // Cabinet margins
+  const trCab  = trTJM  - MANAGER_TJM;
+  const kalCab = kalTJM - MANAGER_TJM;
 
-  document.getElementById('r-tr-badge').textContent  = fmtPct(trPct)  + ' vs CDI';
-  document.getElementById('r-kal-badge').textContent = fmtPct(kalPct) + ' vs CDI';
+  // ── CDI stacked bar widths ──
+  const barTotal = cdiTotal;
+  const pSalary  = cdiSalary  / barTotal * 100;
+  const pBonus   = cdiBonus   / barTotal * 100;
+  const pCharges = cdiCharges / barTotal * 100;
+  const pExtras  = extras     / barTotal * 100;
+  document.getElementById('ccb-salary').style.width   = pSalary + '%';
+  document.getElementById('ccb-bonus').style.width    = pBonus  + '%';
+  document.getElementById('ccb-charges').style.width  = pCharges + '%';
+  document.getElementById('ccb-extras').style.width   = pExtras + '%';
 
-  // TJM breakdown bars
-  const trManagerPct  = Math.round(MANAGER_TJM / trTJM  * 100);
-  const trCabinetPct  = 100 - trManagerPct;
-  const kyManagerPct  = Math.round(MANAGER_TJM / kalTJM * 100);
-  const kyCabinetPct  = 100 - kyManagerPct;
+  document.getElementById('leg-salary').textContent  = fmtK(cdiSalary);
+  document.getElementById('leg-bonus').textContent   = fmtK(cdiBonus);
+  document.getElementById('leg-charges').textContent = fmtK(cdiCharges);
+  document.getElementById('leg-extras').textContent  = fmtK(extras);
 
-  document.getElementById('bar-tr-manager').style.width  = trManagerPct + '%';
-  document.getElementById('bar-tr-cabinet').style.width  = trCabinetPct + '%';
-  document.getElementById('bar-ky-manager').style.width  = kyManagerPct + '%';
-  document.getElementById('bar-ky-cabinet').style.width  = kyCabinetPct + '%';
+  // ── KPIs ──
+  document.getElementById('c-cdi-total').textContent = fmtK(cdiTotal) + ' €';
+  document.getElementById('c-cdi-tjm').textContent   = fmtK(cdiTJM) + ' €/j';
+  document.getElementById('c-cdi-conges').textContent = conges;
 
-  document.getElementById('lbl-tr-manager').textContent  = fmtK(MANAGER_TJM) + ' €';
-  document.getElementById('lbl-tr-cabinet').textContent  = fmtK(trCabinet) + ' €';
-  document.getElementById('lbl-ky-manager').textContent  = fmtK(MANAGER_TJM) + ' €';
-  document.getElementById('lbl-ky-cabinet').textContent  = fmtK(kalCabinet) + ' €';
-  document.getElementById('lbl-tr-tjm2').textContent     = fmtK(trTJM);
-  document.getElementById('lbl-ky-tjm2').textContent     = fmtK(kalTJM);
+  document.getElementById('c-tr-total').textContent  = fmtK(trTotal) + ' €';
+  document.getElementById('c-tr-tjm').textContent    = fmtK(trTJM) + ' €/j';
+  document.getElementById('c-tr-badge').textContent  = fmtPct(trPct) + ' vs CDI';
 
-  document.getElementById('fn-jours').textContent  = joursReels;
-  document.getElementById('fn-conges').textContent = conges;
+  document.getElementById('c-kal-total').textContent = fmtK(kalTotal) + ' €';
+  document.getElementById('c-kal-tjm').textContent   = fmtK(kalTJM) + ' €/j';
+  const kalSign = kalPct >= 0 ? fmtPct(kalPct) + ' vs CDI' : '≃ CDI (' + fmtPct(kalPct) + ')';
+  document.getElementById('c-kal-badge').textContent = kalSign;
 
-  // New breakdown rows
-  document.getElementById('r-cdi-salary').textContent   = fmtK(salary);
-  document.getElementById('r-cdi-bonus').textContent    = fmtK(salary * bonus);
-  document.getElementById('r-cdi-charges').textContent  = fmtK(salary * (1 + bonus) * charges);
-  document.getElementById('r-cdi-extras').textContent   = fmtK(extras);
-  document.getElementById('r-cdi-conges').textContent   = conges;
-  document.getElementById('r-cdi-jours').textContent    = joursReels;
+  // ── TJM split bars ──
+  const trMPct  = Math.round(MANAGER_TJM / trTJM  * 100);
+  const kyMPct  = Math.round(MANAGER_TJM / kalTJM * 100);
+  document.getElementById('bar-tr-m').style.width = trMPct + '%';
+  document.getElementById('bar-tr-c').style.width = (100 - trMPct) + '%';
+  document.getElementById('bar-ky-m').style.width = kyMPct + '%';
+  document.getElementById('bar-ky-c').style.width = (100 - kyMPct) + '%';
+  document.getElementById('lbl-tr-m').textContent = fmtK(MANAGER_TJM) + ' €';
+  document.getElementById('lbl-tr-c').textContent = fmtK(trCab) + ' €';
+  document.getElementById('lbl-ky-m').textContent = fmtK(MANAGER_TJM) + ' €';
+  document.getElementById('lbl-ky-c').textContent = fmtK(kalCab) + ' €';
 
-  // Labels
-  document.getElementById('v-salary').textContent  = fmtK(salary) + ' €';
-  document.getElementById('v-bonus').textContent   = parseInt(document.getElementById('sl-bonus').value) + ' %';
-  document.getElementById('v-charges').textContent = parseInt(document.getElementById('sl-charges').value) + ' %';
+  // ── Savings callout ──
+  document.getElementById('s-euros').textContent = fmtK(savings) + ' €';
+  document.getElementById('s-days').textContent  = savingsDays + ' jours';
+
+  // ── Slider labels ──
+  document.getElementById('v-bonus').textContent   = Math.round(bonus * 100) + ' %';
+  document.getElementById('v-charges').textContent = Math.round(charges * 100) + ' %';
   document.getElementById('v-extras').textContent  = fmtK(extras) + ' €';
   document.getElementById('v-conges').textContent  = conges + ' j';
 
-  // Slider fills
-  ['sl-salary','sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(function(id) {
+  // ── Slider fill gradients ──
+  function fillSlider(id) {
     const el = document.getElementById(id);
     const pct = (el.value - el.min) / (el.max - el.min) * 100;
     el.style.background = 'linear-gradient(to right, var(--gold) ' + pct + '%, var(--border) ' + pct + '%)';
-  });
+  }
+  ['sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(fillSlider);
+
+  // Main salary slider fill
+  const sp = (salary - 70000) / (400000 - 70000) * 100;
+  document.getElementById('sl-salary').style.background =
+    'linear-gradient(to right, var(--gold) ' + sp + '%, var(--border) ' + sp + '%)';
+  document.getElementById('chs-range') && (document.getElementById('chs-range').style.background =
+    'linear-gradient(to right, var(--gold) ' + sp + '%, var(--border) ' + sp + '%)');
 }
 
-function setCalcView(v) {
-  calcView = v;
-  document.getElementById('tog-total').classList.toggle('calc-tog--active', v === 'total');
-  document.getElementById('tog-real').classList.toggle('calc-tog--active', v === 'real');
+// Sync main slider ↔ number input
+document.getElementById('sl-salary').addEventListener('input', function() {
+  document.getElementById('sl-num').value = this.value;
   renderCalc();
+});
+document.getElementById('sl-num').addEventListener('input', function() {
+  let v = Math.max(70000, Math.min(400000, parseInt(this.value) || 70000));
+  document.getElementById('sl-salary').value = v;
+  renderCalc();
+});
+['sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', renderCalc);
+});
+
+renderCalc();
 }
 
 ['sl-salary','sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(function(id) {
