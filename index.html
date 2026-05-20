@@ -135,89 +135,78 @@
   @media (max-width: 860px) { .nav-links { display: none; } }
 
   /* ════════════════
-     HERO — SPLIT
+     HERO — FULLSCREEN
   ════════════════ */
   #hero {
-    display: grid; grid-template-columns: 1fr 1fr;
-    min-height: 100vh; position: relative;
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: var(--navy);
   }
-  .hero-panel {
-    position: relative; display: flex; flex-direction: column;
-    justify-content: flex-end; padding: 80px 7% 64px;
-    overflow: hidden; text-decoration: none; min-height: 100vh;
-    cursor: pointer;
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(135deg, #07101e 0%, var(--navy) 60%, #1a2e60 100%);
   }
-  .hero-panel::before {
-    content: ''; position: absolute; inset: 0; transition: opacity .4s;
+  .hero-bg video, .hero-bg img {
+    width: 100%; height: 100%; object-fit: cover; opacity: .55;
   }
-  /* CLIENT — navy photo */
-  .hero-panel--client {
-    background-color: #07101e;
-    background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85');
-    background-size: cover; background-position: center 15%;
+  .hero-center {
+    position: relative; z-index: 2; text-align: center;
+    padding: 48px 5%; max-width: 780px;
   }
-  .hero-panel--client::before {
-    background: linear-gradient(165deg, rgba(7,16,40,.4) 0%, rgba(7,16,40,.78) 55%, rgba(7,16,40,.96) 100%);
-  }
-  .hero-panel--client:hover::before {
-    background: linear-gradient(165deg, rgba(7,16,40,.28) 0%, rgba(7,16,40,.68) 55%, rgba(7,16,40,.94) 100%);
-  }
-  /* MANAGER — lighter photo */
-  .hero-panel--manager {
-    background-color: #101d38;
-    background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85');
-    background-size: cover; background-position: center 20%;
-  }
-  .hero-panel--manager::before {
-    background: linear-gradient(165deg, rgba(250,250,247,.15) 0%, rgba(13,27,64,.68) 58%, rgba(13,27,64,.95) 100%);
-  }
-  .hero-panel--manager:hover::before {
-    background: linear-gradient(165deg, rgba(250,250,247,.08) 0%, rgba(13,27,64,.58) 58%, rgba(13,27,64,.93) 100%);
-  }
-  .hero-content { position: relative; z-index: 2; }
-  .hero-actor {
-    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 14px; display: block;
+  .hero-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    display: block; margin-bottom: 28px;
   }
   .hero-h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.6rem, 4vw, 4rem);
-    font-weight: 600; line-height: 1.06; color: var(--white); margin-bottom: 20px;
+    font-size: clamp(3rem, 6vw, 5.2rem);
+    font-weight: 600; line-height: 1.04; color: var(--white);
+    margin-bottom: 24px;
   }
+  .hero-h1 em { font-style: italic; color: var(--gold); }
   .hero-sub {
-    font-size: 0.95rem; color: rgba(255,255,255,.68);
-    line-height: 1.65; margin-bottom: 38px; max-width: 320px;
+    font-size: 1.05rem; color: rgba(255,255,255,.65);
+    line-height: 1.7; margin-bottom: 44px; max-width: 520px;
+    margin-left: auto; margin-right: auto;
   }
-  .hero-cta {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 15px 28px; border-radius: 6px; transition: all .25s;
+  .hero-ctas {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
   }
-  .hero-panel--client .hero-cta { background: var(--gold); color: var(--navy); }
-  .hero-panel--client .hero-cta:hover { background: var(--gold-l); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,160,80,.4); }
-  .hero-panel--manager .hero-cta { background: var(--white); color: var(--navy); }
-  .hero-panel--manager .hero-cta:hover { background: var(--cream); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
-  /* Middle divider mark */
-  .hero-divider {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%); z-index: 10;
-    width: 52px; height: 52px; background: var(--white); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,.28);
+  .hero-cta-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold); color: var(--navy);
+    padding: 16px 32px; border-radius: 7px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem; font-weight: 700; letter-spacing: 0.07em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background .2s, transform .15s;
   }
+  .hero-cta-primary:hover { background: var(--gold-l); transform: translateY(-2px); }
+  .hero-cta-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--white);
+    padding: 15px 32px; border-radius: 7px;
+    border: 1.5px solid rgba(255,255,255,.35);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; text-decoration: none;
+    transition: border-color .2s, background .2s, transform .15s;
+  }
+  .hero-cta-secondary:hover { border-color: var(--white); background: rgba(255,255,255,.08); transform: translateY(-2px); }
   .hero-scroll {
     position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
     z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 7px;
-    color: rgba(255,255,255,.4); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,.35); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
   }
   .scroll-line {
     width: 1px; height: 32px;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,.35));
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,.3));
   }
-  @media (max-width: 680px) {
-    #hero { grid-template-columns: 1fr; }
-    .hero-panel { min-height: 55vh; }
-    .hero-divider, .hero-scroll { display: none; }
+  @media (max-width: 600px) {
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .hero-cta-primary, .hero-cta-secondary { width: 100%; max-width: 300px; justify-content: center; }
   }
 
   /* ════════════════
@@ -1003,13 +992,13 @@
       <a href="#rupture">Pourquoi KALYBRA</a>
     </nav>
     <div class="nav-ctas">
-      <a href="#" onclick="openPanel('manager');return false;" class="nav-cta-secondary">Rejoindre le réseau</a>
-      <a href="#" onclick="openPanel('client');return false;" class="nav-cta-primary">Déposer un brief</a>
+      <a href="manager.html" class="nav-cta-secondary">Rejoindre le réseau</a>
+      <a href="client.html" class="nav-cta-primary">Déposer un brief</a>
     </div>
   </div>
 </nav>
 
-<!-- ═══════════════════════ HERO — SPLIT ═══════════════════════ -->
+<!-- ═══════════════════════ HERO — FULLSCREEN ═══════════════════════ -->
 <section id="hero">
   <div class="hero-bg">
     <!-- VIDEO : <video autoplay muted loop playsinline><source src="hero.mp4" type="video/mp4"></video> -->
