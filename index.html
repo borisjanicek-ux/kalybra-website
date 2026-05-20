@@ -451,6 +451,56 @@
   .tjm-bar-total { font-size: 0.78rem; font-weight: 700; color: var(--navy); width: 58px; flex-shrink: 0; text-align: right; }
   .tjm-decomp-note { font-size: 0.78rem; color: var(--slate); line-height: 1.6; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
 
+  /* Inputs header */
+  .calc-inputs-title {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--navy); margin-bottom: 4px;
+  }
+  .calc-inputs-sub {
+    display: block; font-size: 0.68rem; font-weight: 400; letter-spacing: 0.02em;
+    text-transform: none; color: var(--slate); margin-top: 2px;
+  }
+  .calc-inp-min { font-size: 0.68rem; font-weight: 400; color: var(--slate-l); }
+
+  /* Info icon + tooltip */
+  .calc-info-icon {
+    position: relative; cursor: help; color: var(--gold-d);
+    font-style: normal; font-size: 0.8em; margin-left: 4px;
+  }
+  .calc-tooltip {
+    display: none; position: absolute; left: 50%; bottom: calc(100% + 6px);
+    transform: translateX(-50%);
+    width: 240px; padding: 10px 12px;
+    background: var(--navy); color: rgba(255,255,255,.88);
+    font-size: 0.72rem; line-height: 1.55; font-weight: 400;
+    border-radius: 6px; box-shadow: 0 4px 20px rgba(7,16,40,.25);
+    z-index: 50; pointer-events: none; white-space: normal;
+  }
+  .calc-info-icon:hover .calc-tooltip,
+  .calc-info-icon:focus .calc-tooltip { display: block; }
+
+  /* N/A locked cells */
+  .calc-na {
+    background: rgba(0,0,0,.025); text-align: center;
+  }
+  .col-kal-na {
+    background: rgba(13,27,64,.06) !important; text-align: center;
+  }
+  .na-lbl {
+    font-size: 0.72rem; color: var(--slate-l); font-style: italic;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .na-lbl::before { content: "✕"; font-style: normal; font-size: 0.7em; color: var(--border); }
+
+  /* Component rows (cost build-up) */
+  .row-component td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .row-component td:first-child { background: rgba(13,27,64,.015); }
+  .row-note {
+    display: block; font-size: 0.68rem; color: var(--slate-l);
+    font-weight: 400; margin-top: 2px; font-style: italic;
+  }
+  .col-label { min-width: 180px; }
+
   .calc-footnote {
     font-size: 0.72rem; color: var(--slate-l); line-height: 1.65;
     margin-top: 16px; font-style: italic;
@@ -1004,12 +1054,14 @@
   <div class="container">
     <span class="section-label fade-up">Calculateur de coût réel</span>
     <h2 class="calc-h2 fade-up" style="transition-delay:.06s">Le même coût qu'un CDI.<br>L'opérationnalité en plus.</h2>
-    <p class="calc-sub fade-up" style="transition-delay:.12s">Ajustez les hypothèses. Tous les chiffres se recalculent en temps réel.</p>
+    <p class="calc-sub fade-up" style="transition-delay:.12s">Ajustez les hypothèses CDI. Les colonnes Transition classique et KALYBRA n'ont aucun de ces coûts — ils font partie du TJM.</p>
 
     <div class="calc-layout fade-up" style="transition-delay:.16s">
 
-      <!-- ── INPUTS ── -->
+      <!-- ── SLIDERS (CDI only) ── -->
       <div class="calc-inputs-col">
+
+        <p class="calc-inputs-title">Hypothèses CDI <span class="calc-inputs-sub">Transition classique et KALYBRA n'ont pas ces charges</span></p>
 
         <div class="calc-inp-group">
           <div class="calc-inp-header">
@@ -1040,7 +1092,10 @@
 
         <div class="calc-inp-group">
           <div class="calc-inp-header">
-            <span class="calc-inp-label">Avantages annexes fixes</span>
+            <span class="calc-inp-label">
+              Avantages annexes
+              <span class="calc-info-icon" tabindex="0">ⓘ<span class="calc-tooltip">Mutuelle entreprise, retraite complémentaire, véhicule de fonction, titres-restaurant, téléphone, PC, formations internes — tout ce que l'employeur finance en dehors du salaire brut.</span></span>
+            </span>
             <span class="calc-inp-val" id="v-extras">20 000 €</span>
           </div>
           <input type="range" class="calc-slider" id="sl-extras" min="0" max="50000" step="1000" value="20000"/>
@@ -1049,48 +1104,79 @@
 
         <div class="calc-inp-group">
           <div class="calc-inp-header">
-            <span class="calc-inp-label">Congés + absences (jours)</span>
+            <span class="calc-inp-label">Congés payés + absences <span class="calc-inp-min">(min. légal 25 j)</span></span>
             <span class="calc-inp-val" id="v-conges">30 j</span>
           </div>
-          <input type="range" class="calc-slider" id="sl-conges" min="20" max="45" step="1" value="30"/>
-          <div class="calc-slider-bounds"><span>20 j</span><span>45 j</span></div>
+          <input type="range" class="calc-slider" id="sl-conges" min="25" max="45" step="1" value="30"/>
+          <div class="calc-slider-bounds"><span>25 j</span><span>45 j</span></div>
         </div>
 
         <div class="calc-view-toggle">
-          <button id="tog-total" class="calc-tog calc-tog--active" onclick="setCalcView('total')">Coût total 251 j</button>
+          <button id="tog-total" class="calc-tog calc-tog--active" onclick="setCalcView('total')">Coût total annuel</button>
           <button id="tog-real"  class="calc-tog" onclick="setCalcView('real')">TJM jour réel</button>
         </div>
-
-        <p class="calc-view-hint" id="calc-view-hint">Coût total sur 251 jours ouvrés — comparaison annuelle.</p>
+        <p class="calc-view-hint" id="calc-view-hint">Comparaison sur 251 jours ouvrés annuels.</p>
 
       </div>
 
       <!-- ── TABLE ── -->
       <div class="calc-results-col">
-
         <div class="calc-table-wrap">
           <table class="calc-table">
             <thead>
               <tr>
-                <th></th>
+                <th class="col-label">Composante</th>
                 <th>CDI</th>
-                <th>Transition</th>
+                <th>Transition classique</th>
                 <th class="col-kal">KALYBRA ✦</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="calc-row-label">TJM facturé client</td>
-                <td><span id="r-cdi-tjm">1 035</span> €/j <span class="calc-tjm-note" id="r-cdi-note">*</span></td>
-                <td><span id="r-tr-tjm">1 260</span> €/j</td>
-                <td class="col-kal"><span id="r-kal-tjm">1 000</span> €/j</td>
+
+              <tr class="row-component">
+                <td class="calc-row-label">Salaire brut fixe</td>
+                <td><span id="r-cdi-salary">120 000</span> €</td>
+                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
+                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
               </tr>
-              <tr>
-                <td class="calc-row-label">Marge cabinet</td>
-                <td>n/a</td>
-                <td>~36 % <em class="opaque">(opaque)</em></td>
-                <td class="col-kal">20 % affichée</td>
+
+              <tr class="row-component">
+                <td class="calc-row-label">Bonus / variable</td>
+                <td><span id="r-cdi-bonus">24 000</span> €</td>
+                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
+                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
               </tr>
+
+              <tr class="row-component">
+                <td class="calc-row-label">
+                  Charges patronales
+                  <span class="row-note">Sur salaire + bonus</span>
+                </td>
+                <td><span id="r-cdi-charges">64 800</span> €</td>
+                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
+                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
+              </tr>
+
+              <tr class="row-component">
+                <td class="calc-row-label">
+                  Avantages annexes
+                  <span class="row-note">Mutuelle, retraite compl., véhicule, formation...</span>
+                </td>
+                <td><span id="r-cdi-extras">20 000</span> €</td>
+                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
+                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
+              </tr>
+
+              <tr class="row-component">
+                <td class="calc-row-label">
+                  Congés payés + absences
+                  <span class="row-note">Min. légal 25 j en France</span>
+                </td>
+                <td><span id="r-cdi-conges">30</span> j non facturés</td>
+                <td class="calc-na"><span class="na-lbl">Non applicable</span></td>
+                <td class="calc-na col-kal-na"><span class="na-lbl">Non applicable</span></td>
+              </tr>
+
               <tr class="row-total">
                 <td class="calc-row-label" id="r-total-label">Coût total annuel</td>
                 <td><span id="r-cdi-total">228 800</span> €</td>
@@ -1103,33 +1189,58 @@
                   <span class="badge badge--green" id="r-kal-badge">+10 % vs CDI</span>
                 </td>
               </tr>
+
+              <tr>
+                <td class="calc-row-label">Jours facturés</td>
+                <td><span id="r-cdi-jours">221</span> j travaillés</td>
+                <td>251 j ouvrés</td>
+                <td class="col-kal">251 j ouvrés</td>
+              </tr>
+
+              <tr>
+                <td class="calc-row-label">TJM facturé client</td>
+                <td><span id="r-cdi-tjm">1 035</span> €/j</td>
+                <td><span id="r-tr-tjm">1 260</span> €/j</td>
+                <td class="col-kal"><span id="r-kal-tjm">1 000</span> €/j</td>
+              </tr>
+
+              <tr>
+                <td class="calc-row-label">Marge cabinet</td>
+                <td>n/a</td>
+                <td>~36 % <em class="opaque">(opaque)</em></td>
+                <td class="col-kal">20 % affichée</td>
+              </tr>
+
               <tr>
                 <td class="calc-row-label">Délai 1er profil</td>
                 <td>4 à 8 sem.</td>
                 <td>10 à 15 j</td>
                 <td class="col-kal"><strong>24 heures</strong></td>
               </tr>
+
               <tr>
                 <td class="calc-row-label">Opérationnalité</td>
                 <td>2 à 3 mois</td>
                 <td>J+5</td>
                 <td class="col-kal"><strong>Jour 1</strong></td>
               </tr>
+
               <tr>
                 <td class="calc-row-label">Exosquelette IA</td>
                 <td><span class="cross">✕</span></td>
                 <td><span class="cross">✕</span></td>
                 <td class="col-kal"><span class="check">✓</span> Inclus</td>
               </tr>
+
             </tbody>
           </table>
         </div>
 
-        <!-- TJM Decomposition -->
+        <!-- TJM decomp -->
         <div class="tjm-decomp">
-          <p class="tjm-decomp-title">Décomposition du TJM — ce que perçoit le manager</p>
+          <p class="tjm-decomp-title">Décomposition du TJM — ce que perçoit le manager vs le cabinet</p>
           <div class="tjm-bar-row">
-            <span class="tjm-bar-lbl">Transition</span>
+            <span class="tjm-bar-lbl">Transition classique</span>
             <div class="tjm-bar-track">
               <div class="tjm-seg tjm-manager" id="bar-tr-manager" style="width:63.5%">
                 <span class="tjm-seg-lbl">Manager <span id="lbl-tr-manager">800 €</span></span>
@@ -1152,13 +1263,12 @@
             </div>
             <span class="tjm-bar-total"><span id="lbl-ky-tjm2">1 000</span> €/j</span>
           </div>
-          <p class="tjm-decomp-note">Le manager perçoit le même TJM chez KALYBRA qu'en transition classique. C'est la marge du cabinet qui change : 200 € vs 460 €, soit 2,3 fois moins.</p>
+          <p class="tjm-decomp-note">Le manager perçoit le même TJM chez KALYBRA qu'en transition classique. C'est la marge cabinet qui change : 200 € vs 460 €, soit 2,3 fois moins.</p>
         </div>
 
         <p class="calc-footnote">
-          * TJM CDI = coût total annuel divisé par les jours réellement travaillés (<span id="fn-jours">221</span> j = 251 ouvrés moins <span id="fn-conges">30</span> j de congés et absences). Les TJM Transition et KALYBRA s'appliquent sur 251 jours ouvrés. Chiffres indicatifs. Source : bases internes KALYBRA.
+          * CDI : TJM calculé sur <span id="fn-jours">221</span> jours réellement travaillés (<span id="fn-conges">30</span> j de congés et absences déduits de 251 j ouvrés). Transition classique et KALYBRA : facturés sur les 251 jours ouvrés, sans congés payés, sans charges patronales, sans bonus ni avantages. Chiffres indicatifs. Source : bases internes KALYBRA.
         </p>
-
       </div>
     </div>
   </div>
@@ -1681,6 +1791,14 @@ function renderCalc() {
 
   document.getElementById('fn-jours').textContent  = joursReels;
   document.getElementById('fn-conges').textContent = conges;
+
+  // New breakdown rows
+  document.getElementById('r-cdi-salary').textContent   = fmtK(salary);
+  document.getElementById('r-cdi-bonus').textContent    = fmtK(salary * bonus);
+  document.getElementById('r-cdi-charges').textContent  = fmtK(salary * (1 + bonus) * charges);
+  document.getElementById('r-cdi-extras').textContent   = fmtK(extras);
+  document.getElementById('r-cdi-conges').textContent   = conges;
+  document.getElementById('r-cdi-jours').textContent    = joursReels;
 
   // Labels
   document.getElementById('v-salary').textContent  = fmtK(salary) + ' €';
