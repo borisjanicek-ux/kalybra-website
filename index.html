@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KALYBRA — Viser juste.</title>
   <meta name="description" content="Management de transition nouvelle génération. Le bon leader en 24h, au prix d'un CDI. IA au cœur, marge affichée."/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230D1B40'/><line x1='22' y1='15' x2='44' y2='53' stroke='%23C8A050' stroke-width='6.5' stroke-linecap='round'/><line x1='32' y1='13' x2='48' y2='52' stroke='%23C8A050' stroke-width='3.5' stroke-linecap='round'/><line x1='78' y1='15' x2='56' y2='53' stroke='%23C8A050' stroke-width='6.5' stroke-linecap='round'/><line x1='68' y1='13' x2='52' y2='52' stroke='%23C8A050' stroke-width='3.5' stroke-linecap='round'/><line x1='50' y1='52' x2='50' y2='83' stroke='%23C8A050' stroke-width='10' stroke-linecap='round'/></svg>"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230D1B40'/><polygon points='11,26 22,15 44,59 34,65' fill='%23C8A050'/><polygon points='26,14 35,8 49,57 43,62' fill='%23C8A050'/><polygon points='89,26 78,15 56,59 66,65' fill='%23C8A050'/><polygon points='74,14 65,8 51,57 57,62' fill='%23C8A050'/><rect x='42' y='54' width='16' height='30' rx='5' fill='%23C8A050'/></svg>"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -92,14 +92,22 @@
     transition: padding .3s;
   }
   #nav.scrolled .nav-inner { padding-top: 14px; padding-bottom: 14px; }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo-mark { width: 36px; height: 36px; }
-  .nav-logo-text {
-    font-weight: 800; font-size: 1.05rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--white); transition: color .3s;
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .nav-wordmark {
+    display: inline-flex; align-items: center; gap: 0;
+    font-weight: 900; font-size: 1.25rem; letter-spacing: 0.16em; text-transform: uppercase;
+    line-height: 1;
   }
-  #nav.scrolled .nav-logo-text { color: var(--navy); }
-  .nav-logo-y { color: var(--gold); }
+  .nav-wm-text {
+    color: var(--white); transition: color .3s;
+    font-weight: 900; font-size: 1.2rem; letter-spacing: 0.14em;
+  }
+  #nav.scrolled .nav-wm-text { color: var(--navy); }
+  .nav-wm-y {
+    width: 18px; height: 20px; margin: 0 1px;
+    position: relative; top: 0px;
+    transition: filter .3s;
+  }
   .nav-links { display: flex; align-items: center; gap: 32px; }
   .nav-links a {
     font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
@@ -338,102 +346,122 @@
   #calculator { padding: 100px 5%; background: var(--light); border-top: 1px solid var(--border); }
   .calc-h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 600; color: var(--navy); margin-bottom: 14px;
+    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; color: var(--navy);
+    margin-bottom: 12px;
   }
-  .calc-sub { font-size: 0.95rem; color: var(--text2); max-width: 500px; line-height: 1.7; margin-bottom: 48px; }
-  /* Salary row */
-  .salary-row {
-    background: var(--white); border: 1px solid var(--border); border-radius: 10px;
-    padding: 28px 36px; margin-bottom: 36px;
-    display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  .calc-sub { font-size: 0.92rem; color: var(--text2); line-height: 1.7; margin-bottom: 48px; }
+
+  /* Layout */
+  .calc-layout {
+    display: grid; grid-template-columns: 340px 1fr; gap: 48px; align-items: start;
   }
-  .salary-label {
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--navy); white-space: nowrap; flex-shrink: 0;
+  @media (max-width: 960px) { .calc-layout { grid-template-columns: 1fr; } }
+
+  /* Input column */
+  .calc-inputs-col { display: flex; flex-direction: column; gap: 22px; }
+
+  .calc-inp-group {}
+  .calc-inp-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 8px;
   }
-  .salary-input-wrap {
-    display: flex; align-items: center; gap: 6px;
-    border: 1.5px solid var(--border); border-radius: 6px;
-    padding: 9px 14px; background: var(--light); flex-shrink: 0;
-    transition: border-color .2s;
-  }
-  .salary-input-wrap:focus-within { border-color: var(--gold); }
-  .salary-input-wrap span { color: var(--slate); font-size: 0.9rem; }
-  #salaryInput {
-    border: none; background: transparent; outline: none;
-    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--navy);
-    width: 95px; text-align: right;
-    -moz-appearance: textfield;
-  }
-  #salaryInput::-webkit-outer-spin-button,
-  #salaryInput::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .salary-slider-wrap { flex: 1; min-width: 220px; }
-  #salarySlider {
+  .calc-inp-label { font-size: 0.78rem; font-weight: 600; color: var(--text2); letter-spacing: 0.02em; }
+  .calc-inp-val { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+
+  .calc-slider {
     -webkit-appearance: none; appearance: none;
-    width: 100%; height: 4px; border-radius: 2px;
-    background: var(--border); outline: none; cursor: pointer;
+    width: 100%; height: 4px; border-radius: 4px;
+    background: linear-gradient(to right, var(--gold) 36%, var(--border) 36%);
+    outline: none; cursor: pointer; margin-bottom: 5px;
   }
-  #salarySlider::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
-    background: var(--gold); cursor: pointer;
-    border: 3px solid var(--white);
-    box-shadow: 0 2px 8px rgba(200,160,80,.45);
+  .calc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--white);
+    box-shadow: 0 1px 6px rgba(200,160,80,.4); cursor: pointer;
     transition: transform .15s;
   }
-  #salarySlider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-  #salarySlider::-moz-range-thumb {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--gold); cursor: pointer; border: 3px solid var(--white);
+  .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .calc-slider::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--white); cursor: pointer;
   }
-  .salary-range-labels {
-    display: flex; justify-content: space-between; margin-top: 7px;
+  .calc-slider-bounds {
+    display: flex; justify-content: space-between;
     font-size: 0.68rem; color: var(--slate-l);
   }
-  /* Table */
-  .calc-table-wrap {
-    background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+
+  /* View toggle */
+  .calc-view-toggle {
+    display: flex; background: var(--border); border-radius: 8px; padding: 3px;
+    margin-top: 4px;
   }
-  .calc-table { width: 100%; border-collapse: collapse; }
+  .calc-tog {
+    flex: 1; padding: 9px 12px; border: none; border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.03em; cursor: pointer; background: none; color: var(--slate);
+    transition: all .2s;
+  }
+  .calc-tog--active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .calc-view-hint { font-size: 0.74rem; color: var(--slate); line-height: 1.5; }
+
+  /* Results column */
+  .calc-results-col {}
+  .calc-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 20px rgba(13,27,64,.06); }
+  .calc-table { width: 100%; border-collapse: collapse; background: var(--white); }
   .calc-table thead tr { border-bottom: 1px solid var(--border); }
   .calc-table th {
-    padding: 18px 28px; text-align: left;
-    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--slate);
+    padding: 15px 16px; text-align: left;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--slate); background: var(--white);
   }
   .calc-table th.col-kal { background: var(--navy); color: var(--gold); }
   .calc-table td {
-    padding: 17px 28px; font-size: 0.9rem; color: var(--text2);
-    border-bottom: 1px solid var(--border); vertical-align: middle;
-    transition: all .3s;
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    font-size: 0.875rem; color: var(--text2);
   }
   .calc-table tr:last-child td { border-bottom: none; }
   .calc-table td.col-kal { background: rgba(13,27,64,.03); font-weight: 600; color: var(--navy); }
   .calc-table tr.row-total td {
-    background: rgba(13,27,64,.04); font-weight: 700; font-size: 0.95rem;
-    padding-top: 22px; padding-bottom: 22px;
+    font-size: 1rem; font-weight: 700; color: var(--navy);
+    background: var(--light); border-top: 1px solid var(--border);
   }
   .calc-table tr.row-total td.col-kal { background: var(--navy); color: var(--gold); font-size: 1rem; }
-  .calc-table td:first-child { font-size: 0.8rem; font-weight: 600; color: var(--navy); white-space: nowrap; }
-  .badge {
-    display: inline-block; font-size: 0.68rem; font-weight: 700;
-    padding: 2px 7px; border-radius: 3px; margin-left: 8px; vertical-align: middle;
-  }
-  .badge--red { background: rgba(239,68,68,.1); color: #b91c1c; }
-  .badge--green { background: rgba(34,197,94,.12); color: #166534; }
+  .calc-row-label { font-size: 0.78rem !important; font-weight: 600 !important; color: var(--navy) !important; white-space: nowrap; }
+  .calc-tjm-note { font-size: 0.75em; color: var(--slate-l); }
+  .opaque { color: var(--slate-l); font-size: .8em; }
+
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; margin-left: 5px; white-space: nowrap; }
+  .badge--red   { background: rgba(239,68,68,.1);  color: #dc2626; }
+  .badge--green { background: rgba(34,197,94,.12); color: #16a34a; }
   .check { color: var(--green); font-weight: 700; }
   .cross { color: var(--slate-l); }
+
+  /* TJM decomposition bars */
+  .tjm-decomp { margin-top: 24px; padding: 22px 24px; background: var(--white); border-radius: 10px; box-shadow: 0 2px 20px rgba(13,27,64,.06); }
+  .tjm-decomp-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); margin-bottom: 18px; }
+  .tjm-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .tjm-bar-lbl { font-size: 0.75rem; font-weight: 600; color: var(--text2); width: 70px; flex-shrink: 0; }
+  .tjm-bar-track { flex: 1; display: flex; border-radius: 5px; overflow: hidden; height: 34px; }
+  .tjm-seg { display: flex; align-items: center; justify-content: center; transition: width .4s ease; overflow: hidden; }
+  .tjm-seg-lbl { font-size: 0.72rem; font-weight: 600; color: var(--white); white-space: nowrap; padding: 0 8px; }
+  .tjm-manager    { background: var(--navy); }
+  .tjm-cabinet-tr { background: #dc2626; }
+  .tjm-cabinet-ky { background: var(--gold); }
+  .tjm-cabinet-ky .tjm-seg-lbl { color: var(--navy); }
+  .tjm-bar-total { font-size: 0.78rem; font-weight: 700; color: var(--navy); width: 58px; flex-shrink: 0; text-align: right; }
+  .tjm-decomp-note { font-size: 0.78rem; color: var(--slate); line-height: 1.6; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
+
   .calc-footnote {
-    padding: 18px 28px; border-top: 1px solid var(--border);
-    font-size: 0.74rem; color: var(--slate); line-height: 1.65;
+    font-size: 0.72rem; color: var(--slate-l); line-height: 1.65;
+    margin-top: 16px; font-style: italic;
   }
-  @media (max-width: 640px) {
-    .calc-table th, .calc-table td { padding: 13px 14px; font-size: 0.8rem; }
-    .salary-row { flex-direction: column; align-items: flex-start; }
-    .salary-slider-wrap { width: 100%; }
+  @media (max-width: 760px) {
+    .calc-table th, .calc-table td { padding: 11px 10px; font-size: 0.78rem; }
+    .tjm-bar-lbl { width: 52px; }
+    .tjm-bar-total { width: 46px; font-size: 0.72rem; }
   }
 
-  /* ════════════════
+/* ════════════════
      RUPTURE
   ════════════════ */
   #rupture { background: var(--navy); padding: 100px 5%; }
@@ -784,15 +812,17 @@
 <nav id="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <svg class="nav-logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10"  stroke-linecap="round"/>
-      </svg>
-      <span class="nav-logo-text">KAL<span class="nav-logo-y">Y</span>BRA</span>
+      <span class="nav-wordmark">
+        <span class="nav-wm-text">KAL</span>
+        <svg class="nav-wm-y" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,26 22,15 44,59 34,65" fill="#C8A050"/>
+          <polygon points="26,14 35,8 49,57 43,62" fill="#C8A050"/>
+          <polygon points="89,26 78,15 56,59 66,65" fill="#C8A050"/>
+          <polygon points="74,14 65,8 51,57 57,62" fill="#C8A050"/>
+          <rect x="42" y="54" width="16" height="50" rx="5" fill="#C8A050"/>
+        </svg>
+        <span class="nav-wm-text">BRA</span>
+      </span>
     </a>
     <nav class="nav-links">
       <a href="#triptych">Notre approche</a>
@@ -824,11 +854,11 @@
 
   <div class="hero-divider">
     <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
-      <line x1="22" y1="15" x2="44" y2="53" stroke="#0D1B40" stroke-width="6.5" stroke-linecap="round"/>
-      <line x1="32" y1="13" x2="48" y2="52" stroke="#0D1B40" stroke-width="3.5" stroke-linecap="round"/>
-      <line x1="78" y1="15" x2="56" y2="53" stroke="#0D1B40" stroke-width="6.5" stroke-linecap="round"/>
-      <line x1="68" y1="13" x2="52" y2="52" stroke="#0D1B40" stroke-width="3.5" stroke-linecap="round"/>
-      <line x1="50" y1="52" x2="50" y2="83" stroke="#0D1B40" stroke-width="10"  stroke-linecap="round"/>
+      <polygon points="11,26 22,15 44,59 34,65" fill="#0D1B40"/>
+        <polygon points="26,14 35,8 49,57 43,62" fill="#0D1B40"/>
+        <polygon points="89,26 78,15 56,59 66,65" fill="#0D1B40"/>
+        <polygon points="74,14 65,8 51,57 57,62" fill="#0D1B40"/>
+        <rect x="42" y="54" width="16" height="30" rx="5" fill="#0D1B40"/>
     </svg>
   </div>
 
@@ -974,78 +1004,162 @@
   <div class="container">
     <span class="section-label fade-up">Calculateur de coût réel</span>
     <h2 class="calc-h2 fade-up" style="transition-delay:.06s">Le même coût qu'un CDI.<br>L'opérationnalité en plus.</h2>
-    <p class="calc-sub fade-up" style="transition-delay:.12s">Entrez la rémunération brute annuelle du poste à pourvoir. Tous les chiffres s'ajustent en temps réel.</p>
+    <p class="calc-sub fade-up" style="transition-delay:.12s">Ajustez les hypothèses. Tous les chiffres se recalculent en temps réel.</p>
 
-    <div class="salary-row fade-up" style="transition-delay:.18s">
-      <span class="salary-label">Rémunération brute annuelle</span>
-      <div class="salary-input-wrap">
-        <input type="number" id="salaryInput" value="120000" min="70000" max="400000" step="5000"/>
-        <span>€</span>
-      </div>
-      <div class="salary-slider-wrap">
-        <input type="range" id="salarySlider" min="70000" max="400000" step="5000" value="120000"/>
-        <div class="salary-range-labels"><span>70 000 €</span><span>400 000 €</span></div>
-      </div>
-    </div>
+    <div class="calc-layout fade-up" style="transition-delay:.16s">
 
-    <div class="calc-table-wrap fade-up" style="transition-delay:.24s">
-      <table class="calc-table">
-        <thead>
-          <tr>
-            <th>Critère</th>
-            <th>CDI</th>
-            <th>Transition classique</th>
-            <th class="col-kal">KALYBRA ✦</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>TJM facturé au client</td>
-            <td><span id="c-cdi-tjm">1 035</span> €/j *</td>
-            <td><span id="c-tr-tjm">1 260</span> €/j</td>
-            <td class="col-kal"><span id="c-kal-tjm">1 000</span> €/j</td>
-          </tr>
-          <tr>
-            <td>Marge cabinet</td>
-            <td>n/a</td>
-            <td>~36 % <em style="color:var(--slate-l);font-size:.8em">(opaque)</em></td>
-            <td class="col-kal">20 % affichée</td>
-          </tr>
-          <tr class="row-total">
-            <td>Coût total annuel</td>
-            <td><span id="c-cdi-total">228 800</span> €</td>
-            <td>
-              <span id="c-tr-total">316 260</span> €
-              <span class="badge badge--red" id="c-tr-badge">+38 % vs CDI</span>
-            </td>
-            <td class="col-kal">
-              <span id="c-kal-total">251 000</span> €
-              <span class="badge badge--green" id="c-kal-badge">+10 % vs CDI</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Délai premier profil</td>
-            <td>4 à 8 semaines</td>
-            <td>10 à 15 jours</td>
-            <td class="col-kal"><strong>24 heures</strong></td>
-          </tr>
-          <tr>
-            <td>Opérationnalité</td>
-            <td>2 à 3 mois</td>
-            <td>J+5</td>
-            <td class="col-kal"><strong>Jour 1</strong></td>
-          </tr>
-          <tr>
-            <td>Exosquelette digital IA</td>
-            <td><span class="cross">✕</span></td>
-            <td><span class="cross">✕</span></td>
-            <td class="col-kal"><span class="check">✓</span> Inclus</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="calc-footnote">
-        * TJM CDI calculé sur 221 jours réellement travaillés (251 ouvrés, hors 25 jours de congés et 5 jours d'absences normales), incluant salaire fixe, bonus 20 %, charges patronales 45 % et avantages fixes estimés à 20 000 €. Les TJM Transition et KALYBRA s'appliquent sur 251 jours ouvrés. Les chiffres ci-dessus sont indicatifs et varient selon le profil, la durée et les conditions de mission. Source : Xerfi 2025 et bases internes KALYBRA.
-      </p>
+      <!-- ── INPUTS ── -->
+      <div class="calc-inputs-col">
+
+        <div class="calc-inp-group">
+          <div class="calc-inp-header">
+            <span class="calc-inp-label">Salaire brut annuel fixe</span>
+            <span class="calc-inp-val" id="v-salary">120 000 €</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-salary" min="70000" max="400000" step="5000" value="120000"/>
+          <div class="calc-slider-bounds"><span>70 k€</span><span>400 k€</span></div>
+        </div>
+
+        <div class="calc-inp-group">
+          <div class="calc-inp-header">
+            <span class="calc-inp-label">Bonus / variable moyen</span>
+            <span class="calc-inp-val" id="v-bonus">20 %</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-bonus" min="0" max="50" step="5" value="20"/>
+          <div class="calc-slider-bounds"><span>0 %</span><span>50 %</span></div>
+        </div>
+
+        <div class="calc-inp-group">
+          <div class="calc-inp-header">
+            <span class="calc-inp-label">Charges patronales</span>
+            <span class="calc-inp-val" id="v-charges">45 %</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-charges" min="30" max="60" step="1" value="45"/>
+          <div class="calc-slider-bounds"><span>30 %</span><span>60 %</span></div>
+        </div>
+
+        <div class="calc-inp-group">
+          <div class="calc-inp-header">
+            <span class="calc-inp-label">Avantages annexes fixes</span>
+            <span class="calc-inp-val" id="v-extras">20 000 €</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-extras" min="0" max="50000" step="1000" value="20000"/>
+          <div class="calc-slider-bounds"><span>0 €</span><span>50 k€</span></div>
+        </div>
+
+        <div class="calc-inp-group">
+          <div class="calc-inp-header">
+            <span class="calc-inp-label">Congés + absences (jours)</span>
+            <span class="calc-inp-val" id="v-conges">30 j</span>
+          </div>
+          <input type="range" class="calc-slider" id="sl-conges" min="20" max="45" step="1" value="30"/>
+          <div class="calc-slider-bounds"><span>20 j</span><span>45 j</span></div>
+        </div>
+
+        <div class="calc-view-toggle">
+          <button id="tog-total" class="calc-tog calc-tog--active" onclick="setCalcView('total')">Coût total 251 j</button>
+          <button id="tog-real"  class="calc-tog" onclick="setCalcView('real')">TJM jour réel</button>
+        </div>
+
+        <p class="calc-view-hint" id="calc-view-hint">Coût total sur 251 jours ouvrés — comparaison annuelle.</p>
+
+      </div>
+
+      <!-- ── TABLE ── -->
+      <div class="calc-results-col">
+
+        <div class="calc-table-wrap">
+          <table class="calc-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>CDI</th>
+                <th>Transition</th>
+                <th class="col-kal">KALYBRA ✦</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="calc-row-label">TJM facturé client</td>
+                <td><span id="r-cdi-tjm">1 035</span> €/j <span class="calc-tjm-note" id="r-cdi-note">*</span></td>
+                <td><span id="r-tr-tjm">1 260</span> €/j</td>
+                <td class="col-kal"><span id="r-kal-tjm">1 000</span> €/j</td>
+              </tr>
+              <tr>
+                <td class="calc-row-label">Marge cabinet</td>
+                <td>n/a</td>
+                <td>~36 % <em class="opaque">(opaque)</em></td>
+                <td class="col-kal">20 % affichée</td>
+              </tr>
+              <tr class="row-total">
+                <td class="calc-row-label" id="r-total-label">Coût total annuel</td>
+                <td><span id="r-cdi-total">228 800</span> €</td>
+                <td>
+                  <span id="r-tr-total">316 260</span> €
+                  <span class="badge badge--red" id="r-tr-badge">+38 % vs CDI</span>
+                </td>
+                <td class="col-kal">
+                  <span id="r-kal-total">251 000</span> €
+                  <span class="badge badge--green" id="r-kal-badge">+10 % vs CDI</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="calc-row-label">Délai 1er profil</td>
+                <td>4 à 8 sem.</td>
+                <td>10 à 15 j</td>
+                <td class="col-kal"><strong>24 heures</strong></td>
+              </tr>
+              <tr>
+                <td class="calc-row-label">Opérationnalité</td>
+                <td>2 à 3 mois</td>
+                <td>J+5</td>
+                <td class="col-kal"><strong>Jour 1</strong></td>
+              </tr>
+              <tr>
+                <td class="calc-row-label">Exosquelette IA</td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td class="col-kal"><span class="check">✓</span> Inclus</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TJM Decomposition -->
+        <div class="tjm-decomp">
+          <p class="tjm-decomp-title">Décomposition du TJM — ce que perçoit le manager</p>
+          <div class="tjm-bar-row">
+            <span class="tjm-bar-lbl">Transition</span>
+            <div class="tjm-bar-track">
+              <div class="tjm-seg tjm-manager" id="bar-tr-manager" style="width:63.5%">
+                <span class="tjm-seg-lbl">Manager <span id="lbl-tr-manager">800 €</span></span>
+              </div>
+              <div class="tjm-seg tjm-cabinet-tr" id="bar-tr-cabinet" style="width:36.5%">
+                <span class="tjm-seg-lbl">Cabinet <span id="lbl-tr-cabinet">460 €</span></span>
+              </div>
+            </div>
+            <span class="tjm-bar-total"><span id="lbl-tr-tjm2">1 260</span> €/j</span>
+          </div>
+          <div class="tjm-bar-row">
+            <span class="tjm-bar-lbl">KALYBRA</span>
+            <div class="tjm-bar-track">
+              <div class="tjm-seg tjm-manager" id="bar-ky-manager" style="width:80%">
+                <span class="tjm-seg-lbl">Manager <span id="lbl-ky-manager">800 €</span></span>
+              </div>
+              <div class="tjm-seg tjm-cabinet-ky" id="bar-ky-cabinet" style="width:20%">
+                <span class="tjm-seg-lbl"><span id="lbl-ky-cabinet">200 €</span></span>
+              </div>
+            </div>
+            <span class="tjm-bar-total"><span id="lbl-ky-tjm2">1 000</span> €/j</span>
+          </div>
+          <p class="tjm-decomp-note">Le manager perçoit le même TJM chez KALYBRA qu'en transition classique. C'est la marge du cabinet qui change : 200 € vs 460 €, soit 2,3 fois moins.</p>
+        </div>
+
+        <p class="calc-footnote">
+          * TJM CDI = coût total annuel divisé par les jours réellement travaillés (<span id="fn-jours">221</span> j = 251 ouvrés moins <span id="fn-conges">30</span> j de congés et absences). Les TJM Transition et KALYBRA s'appliquent sur 251 jours ouvrés. Chiffres indicatifs. Source : bases internes KALYBRA.
+        </p>
+
+      </div>
     </div>
   </div>
 </section>
@@ -1189,11 +1303,11 @@
     <div class="panel-header-logo">
       <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10" stroke-linecap="round"/>
+        <polygon points="11,26 22,15 44,59 34,65" fill="#C8A050"/>
+        <polygon points="26,14 35,8 49,57 43,62" fill="#C8A050"/>
+        <polygon points="89,26 78,15 56,59 66,65" fill="#C8A050"/>
+        <polygon points="74,14 65,8 51,57 57,62" fill="#C8A050"/>
+        <rect x="42" y="54" width="16" height="30" rx="5" fill="#C8A050"/>
       </svg>
       <span class="panel-header-brand">KAL<span class="gy">Y</span>BRA</span>
     </div>
@@ -1298,11 +1412,11 @@
     <div class="panel-header-logo">
       <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" fill="#0D1B40"/>
-        <line x1="22" y1="15" x2="44" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="32" y1="13" x2="48" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="78" y1="15" x2="56" y2="53" stroke="#C8A050" stroke-width="6.5" stroke-linecap="round"/>
-        <line x1="68" y1="13" x2="52" y2="52" stroke="#C8A050" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="50" y1="52" x2="50" y2="83" stroke="#C8A050" stroke-width="10" stroke-linecap="round"/>
+        <polygon points="11,26 22,15 44,59 34,65" fill="#C8A050"/>
+        <polygon points="26,14 35,8 49,57 43,62" fill="#C8A050"/>
+        <polygon points="89,26 78,15 56,59 66,65" fill="#C8A050"/>
+        <polygon points="74,14 65,8 51,57 57,62" fill="#C8A050"/>
+        <rect x="42" y="54" width="16" height="30" rx="5" fill="#C8A050"/>
       </svg>
       <span class="panel-header-brand">KAL<span class="gy">Y</span>BRA</span>
     </div>
@@ -1478,65 +1592,124 @@ const countIO = new IntersectionObserver((entries) => {
 document.querySelectorAll('.js-stat').forEach(el => countIO.observe(el));
 
 /* ── Calculator ── */
-const WORKING  = 251;  // jours ouvrés
-const REAL     = 221;  // jours réellement travaillés (CDI)
-const BONUS    = 0.20;
-const CHARGES  = 0.45;
-const EXTRAS   = 20000;
-const TR_MULT  = 1.2171;  // Transition TJM = CDI effective TJM × ce ratio
-const KAL_MULT = 0.9662;  // KALYBRA TJM = CDI effective TJM × ce ratio
+const JOURS_OUVRES = 251;
+const MANAGER_TJM  = 800;   // TJM manager identique Transition et KALYBRA
+const TR_MARGIN    = 0.365; // marge Transition ~36.5%
+const KAL_MARGIN   = 0.200; // marge KALYBRA 20%
 
-function fmt(n) { return Math.round(n).toLocaleString('fr-FR'); }
+// Compute TJM from CDI cost per real day
+function calcTJM(cdiCostPerDay, margin) {
+  return Math.round(cdiCostPerDay / (1 - margin));
+}
 
-function render(salary) {
-  const cdiTotal = salary * (1 + BONUS) * (1 + CHARGES) + EXTRAS;
-  const cdiTJM   = cdiTotal / REAL;
+function fmtK(n) { return Math.round(n).toLocaleString('fr-FR'); }
+function fmtPct(n) { return (n >= 0 ? '+' : '') + n.toFixed(0) + ' %'; }
 
-  const trTJM    = Math.round(cdiTJM * TR_MULT);
-  const trTotal  = trTJM * WORKING;
+let calcView = 'total'; // 'total' | 'real'
 
-  const kalTJM   = Math.round(cdiTJM * KAL_MULT);
-  const kalTotal = kalTJM * WORKING;
+function renderCalc() {
+  const salary   = parseInt(document.getElementById('sl-salary').value);
+  const bonus    = parseInt(document.getElementById('sl-bonus').value) / 100;
+  const charges  = parseInt(document.getElementById('sl-charges').value) / 100;
+  const extras   = parseInt(document.getElementById('sl-extras').value);
+  const conges   = parseInt(document.getElementById('sl-conges').value);
+
+  const joursReels = JOURS_OUVRES - conges;
+
+  // CDI total cost
+  const cdiTotal   = salary * (1 + bonus) * (1 + charges) + extras;
+  const cdiTJMReal = cdiTotal / joursReels;  // cost per actually-worked day
+
+  // Transition & KALYBRA TJMs (based on CDI real-day cost)
+  const trTJM  = Math.round(cdiTJMReal * 1.2170);
+  const kalTJM = Math.round(cdiTJMReal * 0.9659);
+
+  const trTotal  = trTJM  * JOURS_OUVRES;
+  const kalTotal = kalTJM * JOURS_OUVRES;
+
+  // Cabinet margins in €
+  const trCabinet  = trTJM  - MANAGER_TJM;
+  const kalCabinet = kalTJM - MANAGER_TJM;
 
   const trPct  = (trTotal  - cdiTotal) / cdiTotal * 100;
   const kalPct = (kalTotal - cdiTotal) / cdiTotal * 100;
 
-  document.getElementById('c-cdi-tjm').textContent  = fmt(cdiTJM);
-  document.getElementById('c-cdi-total').textContent = fmt(cdiTotal);
-  document.getElementById('c-tr-tjm').textContent    = fmt(trTJM);
-  document.getElementById('c-tr-total').textContent  = fmt(trTotal);
-  document.getElementById('c-kal-tjm').textContent   = fmt(kalTJM);
-  document.getElementById('c-kal-total').textContent = fmt(kalTotal);
+  // Displayed values depend on view
+  if (calcView === 'total') {
+    document.getElementById('r-cdi-total').textContent  = fmtK(cdiTotal);
+    document.getElementById('r-cdi-tjm').textContent    = fmtK(cdiTJMReal);
+    document.getElementById('r-cdi-note').textContent   = '* jours réels';
+    document.getElementById('r-tr-total').textContent   = fmtK(trTotal);
+    document.getElementById('r-tr-tjm').textContent     = fmtK(trTJM);
+    document.getElementById('r-kal-total').textContent  = fmtK(kalTotal);
+    document.getElementById('r-kal-tjm').textContent    = fmtK(kalTJM);
+    document.getElementById('r-total-label').textContent = 'Coût total annuel';
+    document.getElementById('calc-view-hint').textContent = 'Coût total sur 251 jours ouvrés — comparaison annuelle.';
+  } else {
+    // Real: show cost per day worked
+    document.getElementById('r-cdi-total').textContent  = fmtK(cdiTJMReal);
+    document.getElementById('r-cdi-tjm').textContent    = fmtK(cdiTJMReal);
+    document.getElementById('r-cdi-note').textContent   = '';
+    document.getElementById('r-tr-total').textContent   = fmtK(trTJM);
+    document.getElementById('r-tr-tjm').textContent     = fmtK(trTJM);
+    document.getElementById('r-kal-total').textContent  = fmtK(kalTJM);
+    document.getElementById('r-kal-tjm').textContent    = fmtK(kalTJM);
+    document.getElementById('r-total-label').textContent = 'TJM par jour travaillé';
+    document.getElementById('calc-view-hint').textContent = 'Coût par jour réellement travaillé : CDI ' + joursReels + ' j, Transition/KALYBRA 251 j.';
+  }
 
-  const s = n => (n >= 0 ? '+' : '') + n.toFixed(0) + ' % vs CDI';
-  document.getElementById('c-tr-badge').textContent  = s(trPct);
-  document.getElementById('c-kal-badge').textContent = s(kalPct);
+  document.getElementById('r-tr-badge').textContent  = fmtPct(trPct)  + ' vs CDI';
+  document.getElementById('r-kal-badge').textContent = fmtPct(kalPct) + ' vs CDI';
+
+  // TJM breakdown bars
+  const trManagerPct  = Math.round(MANAGER_TJM / trTJM  * 100);
+  const trCabinetPct  = 100 - trManagerPct;
+  const kyManagerPct  = Math.round(MANAGER_TJM / kalTJM * 100);
+  const kyCabinetPct  = 100 - kyManagerPct;
+
+  document.getElementById('bar-tr-manager').style.width  = trManagerPct + '%';
+  document.getElementById('bar-tr-cabinet').style.width  = trCabinetPct + '%';
+  document.getElementById('bar-ky-manager').style.width  = kyManagerPct + '%';
+  document.getElementById('bar-ky-cabinet').style.width  = kyCabinetPct + '%';
+
+  document.getElementById('lbl-tr-manager').textContent  = fmtK(MANAGER_TJM) + ' €';
+  document.getElementById('lbl-tr-cabinet').textContent  = fmtK(trCabinet) + ' €';
+  document.getElementById('lbl-ky-manager').textContent  = fmtK(MANAGER_TJM) + ' €';
+  document.getElementById('lbl-ky-cabinet').textContent  = fmtK(kalCabinet) + ' €';
+  document.getElementById('lbl-tr-tjm2').textContent     = fmtK(trTJM);
+  document.getElementById('lbl-ky-tjm2').textContent     = fmtK(kalTJM);
+
+  document.getElementById('fn-jours').textContent  = joursReels;
+  document.getElementById('fn-conges').textContent = conges;
+
+  // Labels
+  document.getElementById('v-salary').textContent  = fmtK(salary) + ' €';
+  document.getElementById('v-bonus').textContent   = parseInt(document.getElementById('sl-bonus').value) + ' %';
+  document.getElementById('v-charges').textContent = parseInt(document.getElementById('sl-charges').value) + ' %';
+  document.getElementById('v-extras').textContent  = fmtK(extras) + ' €';
+  document.getElementById('v-conges').textContent  = conges + ' j';
+
+  // Slider fills
+  ['sl-salary','sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(function(id) {
+    const el = document.getElementById(id);
+    const pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.background = 'linear-gradient(to right, var(--gold) ' + pct + '%, var(--border) ' + pct + '%)';
+  });
 }
 
-function fillSlider(v) {
-  const pct = ((v - 70000) / (400000 - 70000)) * 100;
-  slider.style.background = `linear-gradient(to right, var(--gold) ${pct}%, var(--border) ${pct}%)`;
+function setCalcView(v) {
+  calcView = v;
+  document.getElementById('tog-total').classList.toggle('calc-tog--active', v === 'total');
+  document.getElementById('tog-real').classList.toggle('calc-tog--active', v === 'real');
+  renderCalc();
 }
 
-const slider = document.getElementById('salarySlider');
-const input  = document.getElementById('salaryInput');
-
-slider.addEventListener('input', () => {
-  const v = parseInt(slider.value);
-  input.value = v;
-  fillSlider(v);
-  render(v);
-});
-input.addEventListener('input', () => {
-  let v = parseInt(input.value) || 70000;
-  v = Math.max(70000, Math.min(400000, v));
-  slider.value = v;
-  fillSlider(v);
-  render(v);
+['sl-salary','sl-bonus','sl-charges','sl-extras','sl-conges'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', renderCalc);
 });
 
-render(120000);
-fillSlider(120000);
+renderCalc();
+
 
 /* ══════════════════════════════════════
    SLIDE PANELS
