@@ -475,6 +475,49 @@
   .card-tjm-note { font-size: 0.68rem; color: var(--slate-l); margin-bottom: 18px; font-style: italic; }
   .card-tjm-note--ky { color: rgba(255,255,255,.4); }
 
+  /* Margin split visual (replaces TJM bar) */
+  .margin-split {
+    display: flex; align-items: stretch;
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 18px; min-height: 96px;
+  }
+  .ms-half {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 14px 10px; gap: 1px;
+  }
+  .ms-pct {
+    font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em;
+  }
+  .ms-label {
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.13em;
+    text-transform: uppercase; margin-top: 3px;
+  }
+  .ms-amount {
+    font-size: 0.7rem; font-weight: 600; margin-top: 5px;
+  }
+  .ms-sep { width: 1px; flex-shrink: 0; }
+  /* Transition classique */
+  .margin-split--tr .ms-mgr { background: rgba(13,27,64,.05); }
+  .margin-split--tr .ms-mgr .ms-pct   { color: var(--navy); }
+  .margin-split--tr .ms-mgr .ms-label { color: var(--slate); }
+  .margin-split--tr .ms-mgr .ms-amount{ color: var(--slate); }
+  .margin-split--tr .ms-cab { background: rgba(220,38,38,.07); }
+  .margin-split--tr .ms-cab .ms-pct   { color: #dc2626; font-size: 2.8rem; }
+  .margin-split--tr .ms-cab .ms-label { color: #b91c1c; }
+  .margin-split--tr .ms-cab .ms-amount{ color: #b91c1c; }
+  .margin-split--tr .ms-sep { background: var(--border); }
+  /* KALYBRA */
+  .margin-split--ky .ms-mgr { background: rgba(255,255,255,.1); }
+  .margin-split--ky .ms-mgr .ms-pct   { color: var(--gold); font-size: 2.8rem; }
+  .margin-split--ky .ms-mgr .ms-label { color: rgba(255,255,255,.5); }
+  .margin-split--ky .ms-mgr .ms-amount{ color: rgba(255,255,255,.65); }
+  .margin-split--ky .ms-cab { background: rgba(200,160,80,.1); }
+  .margin-split--ky .ms-cab .ms-pct   { color: rgba(200,160,80,.55); font-size: 1.6rem; }
+  .margin-split--ky .ms-cab .ms-label { color: rgba(255,255,255,.35); }
+  .margin-split--ky .ms-cab .ms-amount{ color: rgba(255,255,255,.4); }
+  .margin-split--ky .ms-sep { background: rgba(255,255,255,.1); }
+
   /* KPIs */
   .card-kpi { display: flex; gap: 16px; margin-bottom: 14px; }
   .kpi { display: flex; flex-direction: column; }
@@ -1162,15 +1205,19 @@
         <span class="card-eyebrow">Cabinets classiques</span>
         <h3 class="card-title">Transition classique</h3>
         <p class="card-sub">Plus cher qu'un CDI — marge opaque</p>
-        <div class="card-tjm-bar">
-          <div class="ctb-manager" id="bar-tr-m" style="width:63.5%">
-            <span>Manager <b id="lbl-tr-m">800 €</b></span>
+        <div class="margin-split margin-split--tr">
+          <div class="ms-half ms-mgr">
+            <span class="ms-pct">44%</span>
+            <span class="ms-label">manager</span>
+            <span class="ms-amount"><b id="lbl-tr-m">800 €/j</b></span>
           </div>
-          <div class="ctb-cabinet ctb-cabinet--tr" id="bar-tr-c" style="width:36.5%">
-            <span>Cabinet <b id="lbl-tr-c">460 €</b></span>
+          <div class="ms-sep"></div>
+          <div class="ms-half ms-cab">
+            <span class="ms-pct">56%</span>
+            <span class="ms-label">cabinet</span>
+            <span class="ms-amount"><b id="lbl-tr-c">460 €/j</b></span>
           </div>
         </div>
-        <p class="card-tjm-note">Sur chaque euro facturé au client</p>
         <div class="card-kpi">
           <div class="kpi">
             <span class="kpi-val kpi--warn" id="c-tr-total">316 260 €</span>
@@ -1195,15 +1242,19 @@
         <span class="card-eyebrow card-eyebrow--ky">Nouvelle génération</span>
         <h3 class="card-title card-title--ky">KALYBRA</h3>
         <p class="card-sub card-sub--ky">Même coût qu'un CDI — marge affichée 20 %</p>
-        <div class="card-tjm-bar">
-          <div class="ctb-manager ctb-manager--ky" id="bar-ky-m" style="width:80%">
-            <span>Manager <b id="lbl-ky-m">800 €</b></span>
+        <div class="margin-split margin-split--ky">
+          <div class="ms-half ms-mgr">
+            <span class="ms-pct">80%</span>
+            <span class="ms-label">manager</span>
+            <span class="ms-amount"><b id="lbl-ky-m">800 €/j</b></span>
           </div>
-          <div class="ctb-cabinet ctb-cabinet--ky" id="bar-ky-c" style="width:20%">
-            <span><b id="lbl-ky-c">200 €</b></span>
+          <div class="ms-sep"></div>
+          <div class="ms-half ms-cab">
+            <span class="ms-pct">20%</span>
+            <span class="ms-label">cabinet</span>
+            <span class="ms-amount"><b id="lbl-ky-c">200 €/j</b></span>
           </div>
         </div>
-        <p class="card-tjm-note card-tjm-note--ky">Le manager perçoit le même TJM — 2,3× moins pour le cabinet</p>
         <div class="card-kpi">
           <div class="kpi">
             <span class="kpi-val kpi--ky" id="c-kal-total">251 000 €</span>
@@ -1791,10 +1842,10 @@ function renderCalc() {
   document.getElementById('bar-tr-c').style.width = (100 - trMPct) + '%';
   document.getElementById('bar-ky-m').style.width = kyMPct + '%';
   document.getElementById('bar-ky-c').style.width = (100 - kyMPct) + '%';
-  document.getElementById('lbl-tr-m').textContent = fmtK(MANAGER_TJM) + ' €';
-  document.getElementById('lbl-tr-c').textContent = fmtK(trCab) + ' €';
-  document.getElementById('lbl-ky-m').textContent = fmtK(MANAGER_TJM) + ' €';
-  document.getElementById('lbl-ky-c').textContent = fmtK(kalCab) + ' €';
+  document.getElementById('lbl-tr-m').textContent = fmtK(MANAGER_TJM) + ' €/j';
+  document.getElementById('lbl-tr-c').textContent = fmtK(trCab) + ' €/j';
+  document.getElementById('lbl-ky-m').textContent = fmtK(MANAGER_TJM) + ' €/j';
+  document.getElementById('lbl-ky-c').textContent = fmtK(kalCab) + ' €/j';
 
   // ── Savings callout ──
   document.getElementById('s-euros').textContent = fmtK(savings) + ' €';
