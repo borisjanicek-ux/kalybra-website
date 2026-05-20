@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KALYBRA · Déposer un brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--navy:#0D1B40;--gold:#C8A050;--gold-d:#A8842E;--slate:#64748b;--border:#E4E8F0;--light:#F5F6FA;--white:#fff}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:var(--navy);min-height:100vh;-webkit-font-smoothing:antialiased}
+  /* NAV */
+  nav{background:var(--white);border-bottom:1px solid var(--border);padding:16px 5%;display:flex;align-items:center;justify-content:space-between}
+  .nav-back{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);text-decoration:none;display:flex;align-items:center;gap:7px}
+  .nav-back:hover{color:var(--navy)}
+  .nav-logo-sm{height:32px;width:auto}
+  /* LAYOUT */
+  .page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 61px)}
+  @media(max-width:860px){.page{grid-template-columns:1fr}}
+  /* LEFT — context */
+  .ctx{background:var(--navy);padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between}
+  .ctx-top{}
+  .ctx-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:20px}
+  .ctx-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--white);line-height:1.1;margin-bottom:24px}
+  .ctx-sub{font-size:0.9rem;color:rgba(255,255,255,.58);line-height:1.75;max-width:380px;margin-bottom:44px}
+  .ctx-promises{display:flex;flex-direction:column;gap:16px}
+  .ctx-promise{display:flex;align-items:flex-start;gap:14px}
+  .cp-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+  .cp-text{font-size:0.82rem;color:rgba(255,255,255,.7);line-height:1.6}
+  .cp-text strong{color:var(--white)}
+  .ctx-bottom{margin-top:48px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+  .ctx-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(255,255,255,.4)}
+  @media(max-width:860px){.ctx{display:none}}
+  /* RIGHT — form */
+  .form-wrap{padding:56px 52px;overflow-y:auto}
+  @media(max-width:640px){.form-wrap{padding:40px 24px}}
+  .form-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--navy);margin-bottom:6px}
+  .form-sub{font-size:0.85rem;color:var(--slate);margin-bottom:36px;line-height:1.6}
+  /* STEPS */
+  .steps{display:flex;gap:8px;margin-bottom:40px;align-items:center}
+  .step{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);cursor:pointer}
+  .step.active{color:var(--navy)}
+  .step-dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+  .step.active .step-dot{background:var(--gold)}
+  .step.done .step-dot{background:var(--navy)}
+  .step-sep{flex:1;height:1px;background:var(--border);max-width:32px}
+  /* FORM FIELDS */
+  .field-section{margin-bottom:36px}
+  .field-section-title{font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-d);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:0.78rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+  .field label span{font-weight:400;color:var(--slate);font-size:0.72rem}
+  .field input,.field textarea,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:7px;font-family:'Inter',sans-serif;font-size:0.875rem;color:var(--navy);background:var(--white);transition:border-color .2s;outline:none}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--navy)}
+  .field textarea{resize:vertical;min-height:90px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.field-row{grid-template-columns:1fr}}
+  /* PILLS */
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);font-size:0.78rem;font-weight:500;cursor:pointer;transition:all .18s;background:var(--white);color:var(--navy)}
+  .pill:hover{border-color:var(--navy)}
+  .pill.selected{background:var(--navy);color:var(--white);border-color:var(--navy)}
+  /* URGENCY SLIDER */
+  .urgency-labels{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--slate);margin-top:6px}
+  input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer}
+  /* SUBMIT */
+  .form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+  .btn-submit{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:var(--white);padding:14px 28px;border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,transform .15s}
+  .btn-submit:hover{background:#162550;transform:translateY(-1px)}
+  .form-privacy{font-size:0.7rem;color:var(--slate);line-height:1.5;max-width:260px}
+  /* PROGRESS */
+  .pbar-wrap{height:3px;background:var(--border);border-radius:3px;margin-bottom:36px}
+  .pbar{height:3px;background:var(--gold);border-radius:3px;transition:width .4s}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retour
+  </a>
+</nav>
+
+<div class="page">
+  <!-- LEFT -->
+  <aside class="ctx">
+    <div class="ctx-top">
+      <span class="ctx-eyebrow">Recruteur</span>
+      <h1 class="ctx-title">Votre prochain<br>leader opérationnel<br>en 24 heures.</h1>
+      <p class="ctx-sub">Décrivez votre besoin avec précision. Notre équipe revient vers vous en moins de 2 heures pour valider le brief et lancer la sélection.</p>
+      <div class="ctx-promises">
+        <div class="ctx-promise"><span class="cp-icon">🎯</span><p class="cp-text"><strong>Brief qualifié</strong> par un consultant senior, pas un algorithme.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">⚡</span><p class="cp-text"><strong>Premier profil présenté</strong> en moins de 24 heures.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">📋</span><p class="cp-text"><strong>Marge affichée et contractuelle</strong> à 20 %. Aucun coût caché.</p></div>
+        <div class="ctx-promise"><span class="cp-icon">🤖</span><p class="cp-text">Manager équipé de l'<strong>exosquelette IA KALYBRA</strong> dès J+1.</p></div>
+      </div>
+    </div>
+    <div class="ctx-bottom">
+      <p class="ctx-tagline">"Viser juste, ce n'est pas aller vite. C'est ne pas rater."</p>
+    </div>
+  </aside>
+
+  <!-- RIGHT — FORM -->
+  <div class="form-wrap">
+    <h2 class="form-title">Déposer un brief</h2>
+    <p class="form-sub">3 étapes · environ 5 minutes</p>
+
+    <div class="steps">
+      <div class="step active" id="s1-tab"><div class="step-dot"></div>Contexte</div>
+      <div class="step-sep"></div>
+      <div class="step" id="s2-tab"><div class="step-dot"></div>Profil</div>
+      <div class="step-sep"></div>
+      <div class="step" id="s3-tab"><div class="step-dot"></div>Contact</div>
+    </div>
+    <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:33%"></div></div>
+
+    <form id="brief-form" onsubmit="return false">
+
+      <!-- STEP 1 -->
+      <div id="step1">
+        <div class="field-section">
+          <div class="field-section-title">Contexte de la mission</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Entreprise *</label>
+              <input type="text" id="f-company" placeholder="Nom de votre société" required/>
+            </div>
+            <div class="field">
+              <label>Secteur d'activité *</label>
+              <select id="f-sector">
+                <option value="">Choisir...</option>
+                <option>Industrie &amp; Manufacturing</option>
+                <option>Services financiers</option>
+                <option>Retail &amp; Consumer</option>
+                <option>Santé &amp; Pharma</option>
+                <option>Technologies &amp; Digital</option>
+                <option>Énergie &amp; Infrastructure</option>
+                <option>Logistique &amp; Supply Chain</option>
+                <option>Autre</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Taille de l'entreprise</label>
+            <div class="pills" id="pills-size">
+              <span class="pill" data-group="size">Startup (&lt;50)</span>
+              <span class="pill" data-group="size">PME (50-500)</span>
+              <span class="pill" data-group="size">ETI (500-5000)</span>
+              <span class="pill" data-group="size">Grand groupe (&gt;5000)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="field-section-title">Nature de la mission</div>
+          <div class="field">
+            <label>Type de situation *</label>
+            <div class="pills" id="pills-situation">
+              <span class="pill" data-group="situation">Remplacement urgent</span>
+              <span class="pill" data-group="situation">Transformation</span>
+              <span class="pill" data-group="situation">Restructuration</span>
+              <span class="pill" data-group="situation">Croissance / Scale</span>
+              <span class="pill" data-group="situation">Crise / Redressement</span>
+              <span class="pill" data-group="situation">Projet spécifique</span>
+              <span class="pill" data-group="situation">Intérim direction</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Durée estimée</label>
+            <div class="pills" id="pills-duration">
+              <span class="pill" data-group="duration">3 mois</span>
+              <span class="pill" data-group="duration">3-6 mois</span>
+              <span class="pill" data-group="duration">6-12 mois</span>
+              <span class="pill" data-group="duration">+12 mois</span>
+              <span class="pill" data-group="duration">Indéterminée</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Urgence *</label>
+            <input type="range" id="f-urgency" min="1" max="5" value="3" style="margin-top:10px"/>
+            <div class="urgency-labels">
+              <span>Pas urgent</span><span>Sous 1 semaine</span><span>Urgent (48h)</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="goStep(2)">
+          Étape suivante
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="step2" style="display:none">
+        <div class="field-section">
+          <div class="field-section-title">Profil recherché</div>
+          <div class="field">
+            <label>Fonction principale *</label>
+            <div class="pills" id="pills-func">
+              <span class="pill" data-group="func">DG / CEO</span>
+              <span class="pill" data-group="func">DAF / CFO</span>
+              <span class="pill" data-group="func">DRH / CHRO</span>
+              <span class="pill" data-group="func">COO / Direction opérationnelle</span>
+              <span class="pill" data-group="func">DSI / CTO</span>
+              <span class="pill" data-group="func">Directeur Commercial</span>
+              <span class="pill" data-group="func">Directeur Supply Chain</span>
+              <span class="pill" data-group="func">Directeur Marketing</span>
+              <span class="pill" data-group="func">Directeur de projet</span>
+              <span class="pill" data-group="func">Autre</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Niveau hiérarchique</label>
+            <div class="pills" id="pills-level">
+              <span class="pill" data-group="level">N-1 Comité de direction</span>
+              <span class="pill" data-group="level">Membre CODIR</span>
+              <span class="pill" data-group="level">Direction fonctionnelle</span>
+              <span class="pill" data-group="level">Management intermédiaire</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Compétences clés requises <span>(3 max)</span></label>
+            <div class="pills" id="pills-skills">
+              <span class="pill" data-group="skills" data-max="3">Restructuration financière</span>
+              <span class="pill" data-group="skills" data-max="3">Transformation digitale</span>
+              <span class="pill" data-group="skills" data-max="3">Gestion de crise</span>
+              <span class="pill" data-group="skills" data-max="3">M&amp;A / PMI</span>
+              <span class="pill" data-group="skills" data-max="3">Lean / Excellence opérationnelle</span>
+              <span class="pill" data-group="skills" data-max="3">Internationalisation</span>
+              <span class="pill" data-group="skills" data-max="3">Scale-up / Croissance</span>
+              <span class="pill" data-group="skills" data-max="3">Redressement</span>
+              <span class="pill" data-group="skills" data-max="3">RH / Change management</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Budget journalier indicatif (TJM client)</label>
+            <div class="pills" id="pills-tjm">
+              <span class="pill" data-group="tjm">&lt; 800 €/j</span>
+              <span class="pill" data-group="tjm">800-1 200 €/j</span>
+              <span class="pill" data-group="tjm">1 200-1 800 €/j</span>
+              <span class="pill" data-group="tjm">&gt; 1 800 €/j</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Précisions sur le profil <span>(optionnel)</span></label>
+            <textarea id="f-profile-notes" placeholder="Expériences sectorielles souhaitées, contraintes géographiques, certifications, langues..."></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="button" class="btn-submit" style="background:var(--light);color:var(--navy)" onclick="goStep(1)">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Retour
+          </button>
+          <button type="button" class="btn-submit" onclick="goStep(3)">
+            Étape suivante
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step3" style="display:none">
+        <div class="field-section">
+          <div class="field-section-title">Vos coordonnées</div>
+          <div class="field-row">
+            <div class="field"><label>Prénom *</label><input type="text" id="f-prenom" placeholder="Marie" required/></div>
+            <div class="field"><label>Nom *</label><input type="text" id="f-nom" placeholder="Dupont" required/></div>
+          </div>
+          <div class="field"><label>Email professionnel *</label><input type="email" id="f-email" placeholder="marie.dupont@entreprise.com" required/></div>
+          <div class="field"><label>Téléphone *</label><input type="tel" id="f-tel" placeholder="+33 6 00 00 00 00" required/></div>
+          <div class="field"><label>Fonction <span>(optionnel)</span></label><input type="text" id="f-role" placeholder="DRH, CEO, Directeur Général..."/></div>
+        </div>
+        <div class="form-footer">
+          <p class="form-privacy">En soumettant ce brief, vous acceptez d'être contacté par KALYBRA dans le cadre de votre demande. Vos données ne sont pas partagées à des tiers.</p>
+          <button type="button" class="btn-submit" onclick="submitBrief()">
+            Envoyer le brief
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+// Pills (single select per group, max 3 for "skills")
+document.querySelectorAll('.pill').forEach(function(p) {
+  p.addEventListener('click', function() {
+    const g = this.dataset.group;
+    const max = parseInt(this.dataset.max) || 1;
+    if (max > 1) {
+      const sel = document.querySelectorAll('.pill[data-group="'+g+'"].selected').length;
+      if (this.classList.contains('selected')) { this.classList.remove('selected'); }
+      else if (sel < max) { this.classList.add('selected'); }
+    } else {
+      document.querySelectorAll('.pill[data-group="'+g+'"]').forEach(function(x){ x.classList.remove('selected'); });
+      this.classList.add('selected');
+    }
+  });
+});
+
+function goStep(n) {
+  [1,2,3].forEach(function(i){
+    document.getElementById('step'+i).style.display = (i===n)?'block':'none';
+    const tab = document.getElementById('s'+i+'-tab');
+    tab.classList.toggle('active', i===n);
+    tab.classList.toggle('done', i<n);
+  });
+  document.getElementById('pbar').style.width = (n/3*100)+'%';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function submitBrief() {
+  const prenom = document.getElementById('f-prenom').value;
+  const email = document.getElementById('f-email').value;
+  const company = document.getElementById('f-company').value;
+  if (!prenom || !email || !company) { alert('Merci de renseigner votre prénom, email et entreprise.'); return; }
+  const subject = encodeURIComponent('Brief KALYBRA – ' + company);
+  const body = encodeURIComponent(
+    'Prénom: ' + prenom + '\n' +
+    'Nom: ' + document.getElementById('f-nom').value + '\n' +
+    'Email: ' + email + '\n' +
+    'Tel: ' + document.getElementById('f-tel').value + '\n' +
+    'Entreprise: ' + company + '\n' +
+    'Secteur: ' + document.getElementById('f-sector').value + '\n' +
+    'Notes profil: ' + document.getElementById('f-profile-notes').value
+  );
+  window.location.href = 'mailto:boris.janicek@gmail.com?subject=' + subject + '&body=' + body;
+}
+</script>
+</body>
+</html>
